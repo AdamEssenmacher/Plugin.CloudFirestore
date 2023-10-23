@@ -15,6 +15,11 @@ namespace Plugin.CloudFirestore
             _writeBatch = writeBatch ?? throw new ArgumentNullException(nameof(writeBatch));
         }
 
+        public void Commit()
+        {
+            _writeBatch.Commit();
+        }
+
         public void Commit(CompletionHandler handler)
         {
             _writeBatch.Commit((error) =>

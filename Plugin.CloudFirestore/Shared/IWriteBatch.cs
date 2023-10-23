@@ -7,6 +7,7 @@ namespace Plugin.CloudFirestore
 {
     public interface IWriteBatch
     {
+        void Commit();
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Obsolete("Please use CommitAsync() method instead.")]
         void Commit(CompletionHandler handler);
