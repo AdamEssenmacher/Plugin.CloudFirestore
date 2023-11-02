@@ -2,9 +2,9 @@
 namespace Plugin.CloudFirestore.Attributes
 {
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
-    public sealed class MapToAttribute : Attribute
+    public sealed class FirestorePropertyAttribute : Attribute
     {
-        public MapToAttribute(string mapping)
+        public FirestorePropertyAttribute(string mapping)
         {
             Mapping = mapping;
         }

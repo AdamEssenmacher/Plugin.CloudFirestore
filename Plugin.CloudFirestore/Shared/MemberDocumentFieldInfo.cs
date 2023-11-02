@@ -20,17 +20,17 @@ namespace Plugin.CloudFirestore
         {
             _memberInfo = memberInfo;
 
-            var idAttribute = _memberInfo.GetCustomAttribute<IdAttribute>();
+            var idAttribute = _memberInfo.GetCustomAttribute<FirestoreDocumentIdAttribute>();
             IsId = idAttribute != null;
 
             var ignoredAttribute = _memberInfo.GetCustomAttribute<IgnoredAttribute>();
             IsIgnored = ignoredAttribute != null;
 
-            var mapToAttribute = _memberInfo.GetCustomAttribute<MapToAttribute>();
+            var mapToAttribute = _memberInfo.GetCustomAttribute<FirestorePropertyAttribute>();
             Name = mapToAttribute?.Mapping ?? _memberInfo.Name;
             OriginalName = _memberInfo.Name;
 
-            var serverTimestampAttribute = _memberInfo.GetCustomAttribute<ServerTimestampAttribute>();
+            var serverTimestampAttribute = _memberInfo.GetCustomAttribute<FirestoreServerTimestampAttribute>();
             IsServerTimestamp = serverTimestampAttribute != null;
             CanReplaceServerTimestamp = serverTimestampAttribute?.CanReplace ?? false;
 
