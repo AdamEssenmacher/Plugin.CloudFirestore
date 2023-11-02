@@ -235,24 +235,14 @@ namespace Plugin.CloudFirestore
 
         public IDocumentReference CreateDocument()
         {
-            return Document();
-        }
-
-        public IDocumentReference Document()
-        {
             var doccuntReference = _collectionReference.Document();
             return new DocumentReferenceWrapper(doccuntReference);
         }
 
         public IDocumentReference GetDocument(string documentPath)
         {
-            return Document(documentPath);
-        }
-
-        public IDocumentReference Document(string documentPath)
-        {
-            var doccuntReference = _collectionReference.Document(documentPath);
-            return new DocumentReferenceWrapper(doccuntReference);
+            var documentReference = _collectionReference.Document(documentPath);
+            return new DocumentReferenceWrapper(documentReference);
         }
 
         public void GetDocuments(QuerySnapshotHandler handler)

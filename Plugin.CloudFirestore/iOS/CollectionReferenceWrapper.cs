@@ -4,8 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Foundation;
 using Firebase.CloudFirestore;
-using Plugin.CloudFirestore;
-using System.Reactive.Linq;
 using CoreFoundation;
 using ObjCRuntime;
 
@@ -286,24 +284,14 @@ namespace Plugin.CloudFirestore
 
         public IDocumentReference CreateDocument()
         {
-            return Document();
-        }
-
-        public IDocumentReference Document()
-        {
-            var doccuntReference = _collectionReference.CreateDocument();
-            return new DocumentReferenceWrapper(doccuntReference);
+            var documentReference = _collectionReference.CreateDocument();
+            return new DocumentReferenceWrapper(documentReference);
         }
 
         public IDocumentReference GetDocument(string documentPath)
         {
-            return Document(documentPath);
-        }
-
-        public IDocumentReference Document(string documentPath)
-        {
-            var doccuntReference = _collectionReference.GetDocument(documentPath);
-            return new DocumentReferenceWrapper(doccuntReference);
+            var documentReference = _collectionReference.GetDocument(documentPath);
+            return new DocumentReferenceWrapper(documentReference);
         }
 
         public void GetDocuments(QuerySnapshotHandler handler)
