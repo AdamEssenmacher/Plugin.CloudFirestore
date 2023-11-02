@@ -18,7 +18,7 @@ namespace Plugin.CloudFirestore
             _query = query ?? throw new ArgumentNullException(nameof(query));
         }
 
-        public IFirestore Firestore => FirestoreProvider.GetFirestore(_query.Firestore);
+        public IFirebaseFirestore FirebaseFirestore => FirestoreProvider.GetFirestore(_query.Firestore);
 
         public IQuery LimitTo(long limit)
         {

@@ -8,7 +8,7 @@ namespace Plugin.CloudFirestore
 {
     public interface IQuery
     {
-        IFirestore Firestore { get; }
+        IFirebaseFirestore FirebaseFirestore { get; }
         IQuery LimitTo(long limit);
         IQuery LimitToLast(long limit);
         IQuery OrderBy(string field);

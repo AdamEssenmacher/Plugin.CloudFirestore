@@ -8,9 +8,9 @@ namespace Plugin.CloudFirestore
 {
     public class CloudFirestoreImplementation : ICloudFirestore
     {
-        public IFirestore Instance => FirestoreProvider.Firestore;
+        public IFirebaseFirestore Instance => FirestoreProvider.FirebaseFirestore;
 
-        public IFirestore GetInstance(string appName)
+        public IFirebaseFirestore GetInstance(string appName)
         {
             return FirestoreProvider.GetFirestore(appName);
         }

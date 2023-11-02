@@ -6,8 +6,8 @@ namespace Plugin.CloudFirestore
 {
     public interface ICloudFirestore
     {
-        IFirestore Instance { get; }
-        IFirestore GetInstance(string appName);
+        IFirebaseFirestore Instance { get; }
+        IFirebaseFirestore GetInstance(string appName);
         void SetLoggingEnabled(bool loggingEnabled);
     }
 }

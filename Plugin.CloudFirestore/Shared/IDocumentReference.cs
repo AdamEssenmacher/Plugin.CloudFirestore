@@ -10,7 +10,7 @@ namespace Plugin.CloudFirestore
         string Id { get; }
         string Path { get; }
         ICollectionReference Parent { get; }
-        IFirestore Firestore { get; }
+        IFirebaseFirestore FirebaseFirestore { get; }
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Obsolete("Please use Collection(string collectionPath) method instead.")]
         ICollectionReference GetCollection(string collectionPath);

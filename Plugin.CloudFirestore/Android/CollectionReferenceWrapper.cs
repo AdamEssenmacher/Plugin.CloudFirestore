@@ -23,7 +23,7 @@ namespace Plugin.CloudFirestore
 
         public IDocumentReference? Parent => _collectionReference.Parent == null ? null : new DocumentReferenceWrapper(_collectionReference.Parent);
 
-        public IFirestore Firestore => FirestoreProvider.GetFirestore(_collectionReference.Firestore);
+        public IFirebaseFirestore FirebaseFirestore => FirestoreProvider.GetFirestore(_collectionReference.Firestore);
 
         public IQuery LimitTo(long limit)
         {

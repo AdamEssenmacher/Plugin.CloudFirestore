@@ -23,7 +23,7 @@ namespace Plugin.CloudFirestore
 
         public ICollectionReference Parent => new CollectionReferenceWrapper(_documentReference.Parent);
 
-        public IFirestore Firestore => FirestoreProvider.GetFirestore(_documentReference.Firestore);
+        public IFirebaseFirestore FirebaseFirestore => FirestoreProvider.GetFirestore(_documentReference.Firestore);
 
         public ICollectionReference GetCollection(string collectionPath)
         {
