@@ -27,11 +27,6 @@ namespace Plugin.CloudFirestore
 
         public ICollectionReference GetCollection(string collectionPath)
         {
-            return Collection(collectionPath);
-        }
-
-        public ICollectionReference Collection(string collectionPath)
-        {
             var collectionReference = _documentReference.Collection(collectionPath);
             return new CollectionReferenceWrapper(collectionReference);
         }

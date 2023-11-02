@@ -11,10 +11,7 @@ namespace Plugin.CloudFirestore
         string Path { get; }
         ICollectionReference Parent { get; }
         IFirebaseFirestore FirebaseFirestore { get; }
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Please use Collection(string collectionPath) method instead.")]
         ICollectionReference GetCollection(string collectionPath);
-        ICollectionReference Collection(string collectionPath);
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Obsolete("Please use GetAsync() method instead.")]
         void GetDocument(DocumentSnapshotHandler handler);
