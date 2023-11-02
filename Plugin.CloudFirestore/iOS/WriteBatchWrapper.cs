@@ -15,17 +15,9 @@ namespace Plugin.CloudFirestore
             _writeBatch = writeBatch ?? throw new ArgumentNullException(nameof(writeBatch));
         }
 
-        public void Commit()
+        public void CommitLocal()
         {
             _writeBatch.Commit();
-        }
-
-        public void Commit(CompletionHandler handler)
-        {
-            _writeBatch.Commit((error) =>
-            {
-                handler?.Invoke(error == null ? null : ExceptionMapper.Map(error));
-            });
         }
 
         public Task CommitAsync()
@@ -52,21 +44,9 @@ namespace Plugin.CloudFirestore
             _writeBatch.SetData(documentData.ToNativeFieldValues<NSString>()!, document.ToNative());
         }
 
-        public IWriteBatch Set<T>(IDocumentReference document, T documentData)
-        {
-            _writeBatch.SetData(documentData.ToNativeFieldValues<NSString>()!, document.ToNative());
-            return this;
-        }
-
         public void SetData(IDocumentReference document, object documentData, params string[] mergeFields)
         {
             _writeBatch.SetData(documentData.ToNativeFieldValues<NSString>()!, document.ToNative(), mergeFields);
-        }
-
-        public IWriteBatch Set<T>(IDocumentReference document, T documentData, params string[] mergeFields)
-        {
-            _writeBatch.SetData(documentData.ToNativeFieldValues<NSString>()!, document.ToNative(), mergeFields);
-            return this;
         }
 
         public void SetData(IDocumentReference document, object documentData, params FieldPath[] mergeFields)
@@ -74,21 +54,9 @@ namespace Plugin.CloudFirestore
             _writeBatch.SetData(documentData.ToNativeFieldValues<NSString>()!, document.ToNative(), mergeFields.Select(x => x.ToNative()).ToArray());
         }
 
-        public IWriteBatch Set<T>(IDocumentReference document, T documentData, params FieldPath[] mergeFields)
-        {
-            _writeBatch.SetData(documentData.ToNativeFieldValues<NSString>()!, document.ToNative(), mergeFields.Select(x => x.ToNative()).ToArray());
-            return this;
-        }
-
         public void SetData(IDocumentReference document, object documentData, bool merge)
         {
             _writeBatch.SetData(documentData.ToNativeFieldValues<NSString>()!, document.ToNative(), merge);
-        }
-
-        public IWriteBatch Set<T>(IDocumentReference document, T documentData, bool merge)
-        {
-            _writeBatch.SetData(documentData.ToNativeFieldValues<NSString>()!, document.ToNative(), merge);
-            return this;
         }
 
         public void UpdateData(IDocumentReference document, object fields)
@@ -96,45 +64,21 @@ namespace Plugin.CloudFirestore
             _writeBatch.UpdateData(fields.ToNativeFieldValues<NSObject>()!, document.ToNative());
         }
 
-        public IWriteBatch Update<T>(IDocumentReference document, T fields)
-        {
-            _writeBatch.UpdateData(fields.ToNativeFieldValues<NSObject>()!, document.ToNative());
-            return this;
-        }
-
         public void UpdateData(IDocumentReference document, string field, object? value, params object?[] moreFieldsAndValues)
-        {
-            Update(document, field, value, moreFieldsAndValues);
-        }
-
-        public IWriteBatch Update(IDocumentReference document, string field, object? value, params object?[] moreFieldsAndValues)
         {
             var fields = Field.CreateFields(field, value, moreFieldsAndValues);
             _writeBatch.UpdateData(fields, document.ToNative());
-            return this;
         }
 
         public void UpdateData(IDocumentReference document, FieldPath field, object? value, params object?[] moreFieldsAndValues)
         {
-            Update(document, field, value, moreFieldsAndValues);
-        }
-
-        public IWriteBatch Update(IDocumentReference document, FieldPath field, object? value, params object?[] moreFieldsAndValues)
-        {
             var fields = Field.CreateFields(field, value, moreFieldsAndValues);
             _writeBatch.UpdateData(fields, document.ToNative());
-            return this;
         }
 
         public void DeleteDocument(IDocumentReference document)
         {
-            Delete(document);
-        }
-
-        public IWriteBatch Delete(IDocumentReference document)
-        {
             _writeBatch.DeleteDocument(document.ToNative());
-            return this;
         }
 
         public override bool Equals(object? obj)
