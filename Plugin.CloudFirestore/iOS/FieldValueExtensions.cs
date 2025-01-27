@@ -123,7 +123,7 @@ namespace Plugin.CloudFirestore
                 NSNumber number => new DocumentObject(number.DoubleValue),
                 NSString @string => new DocumentObject(@string.ToString()),
                 string @string => new DocumentObject(@string),
-                Firebase.CloudFirestore.Timestamp timestamp => new DocumentObject(new Timestamp(timestamp)),
+                Firebase.Core.Timestamp timestamp => new DocumentObject(new Timestamp(timestamp)),
                 NSDate date => new DocumentObject(new Timestamp(date)),
                 NSArray array => DocumentObject.CreateAsList((fieldInfo) => fieldInfo.DocumentInfo.Create(array)),
                 NSDictionary dictionary => DocumentObject.CreateAsDictionary((fieldInfo) => fieldInfo.DocumentInfo.Create(dictionary)),

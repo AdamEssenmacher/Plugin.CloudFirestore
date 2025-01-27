@@ -353,19 +353,19 @@ await CrossCloudFirestore.Current
                          .DocumentAsync(new YourModel());
 ```
 ### Support Data Type
-| Firestore Type | .NET Type |
-|---|---|
-| Array | System.Collections.IEnumerable |
-| Boolean | bool and bool? |
-| Byte | byte[] and Stream |
-| Date and time | DateTime, DateTimeOffset, Plugin.CloudFirestore.Timestamp and these Nullable |
-| Floating-point number | float, double, decimal and these Nullable |
-| Geographical point | Plugin.CloudFirestore.GeoPoint |
+| Firestore Type | .NET Type                                                                   |
+|---|-----------------------------------------------------------------------------|
+| Array | System.Collections.IEnumerable                                              |
+| Boolean | bool and bool?                                                              |
+| Byte | byte[] and Stream                                                           |
+| Date and time | DateTime, DateTimeOffset, Plugin.Core.Timestamp and these Nullable          |
+| Floating-point number | float, double, decimal and these Nullable                                   |
+| Geographical point | Plugin.CloudFirestore.GeoPoint                                              |
 | Integer | byte, sbyte, short, ushort, int, uint, long, ulong, enum and these Nullable |
-| Map | System.Collections.IDictionary and Any Class　|
-| Null | null |
-| Reference | Plugin.CloudFirestore.IDocumentReference |
-| Text string | string, char, char?, Guid and Guid? |
+| Map | System.Collections.IDictionary and Any Class　                               |
+| Null | null                                                                        |
+| Reference | Plugin.CloudFirestore.IDocumentReference                                    |
+| Text string | string, char, char?, Guid and Guid?                                         |
 
 ### Attribute
 You can specify attributes to data class properties and fields.

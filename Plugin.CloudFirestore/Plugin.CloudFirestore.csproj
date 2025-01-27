@@ -6,8 +6,8 @@
 		<RootNamespace>Plugin.CloudFirestore</RootNamespace>
 		<PackageId>Scavos.CloudFirestore</PackageId>
 		<Product>$(AssemblyName) ($(TargetFramework))</Product>
-		<Version>3.0.5</Version>
-		<PackageVersion>3.0.5</PackageVersion>
+		<Version>3.2.0</Version>
+		<PackageVersion>3.2.0</PackageVersion>
 		<PackOnBuild>true</PackOnBuild>
 		<NeutralLanguage>en</NeutralLanguage>
 		<DefineConstants>$(DefineConstants);</DefineConstants>
@@ -47,6 +47,6 @@
 	</ItemGroup>
 	<ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
 		<Compile Include="iOS\**\*.cs" />
-		<PackageReference Include="Scavos.Firebase.iOS.CloudFirestore" Version="10.16.0.1" />
+		<PackageReference Include="AdamE.Firebase.iOS.CloudFirestore" Version="11.0.0" />
 	</ItemGroup>
 </Project>
