@@ -57,12 +57,9 @@ namespace Plugin.CloudFirestore
         public void SetData(IDocumentReference document, object documentData, bool merge)
         {
             if (merge)
-            {
+                _writeBatch.Set(document.ToNative(), documentData.ToNativeFieldValues(), SetOptions.Merge());
+            else
                 SetData(document, documentData);
-                return;
-            }
-
-            _writeBatch.Set(document.ToNative(), documentData.ToNativeFieldValues(), SetOptions.Merge());
         }
 
         public void UpdateData(IDocumentReference document, object fields)
