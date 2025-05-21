@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="MSBuild.Sdk.Extras/3.0.22">
+<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.0;Xamarin.iOS10;MonoAndroid12.0</TargetFrameworks>
+		<TargetFrameworks>net9.0;net9.0-ios;net9.0-android</TargetFrameworks>
 		<AssemblyName>Plugin.CloudFirestore</AssemblyName>
 		<RootNamespace>Plugin.CloudFirestore</RootNamespace>
 		<PackageId>Scavos.CloudFirestore</PackageId>
@@ -11,10 +11,8 @@
 		<PackOnBuild>true</PackOnBuild>
 		<NeutralLanguage>en</NeutralLanguage>
 		<DefineConstants>$(DefineConstants);</DefineConstants>
-		<UseFullSemVerForNuGet>false</UseFullSemVerForNuGet>
 		<EnableDefaultCompileItems>false</EnableDefaultCompileItems>
 		<LangVersion>latest</LangVersion>
-		<DebugType>portable</DebugType>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/f-miyu/Plugin.CloudFirestore</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/f-miyu/Plugin.CloudFirestore</RepositoryUrl>
@@ -24,7 +22,6 @@
 		<Owners>f-miyu</Owners>
 		<Authors>f-miyu</Authors>
 		<Copyright>Copyright (c) 2018 f-miyu</Copyright>
-		<DisableExtraReferences>true</DisableExtraReferences>
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)'=='Debug' ">
@@ -37,13 +34,11 @@
 		<Compile Include="Shared\**\*.cs" />
 		<PackageReference Include="System.Reactive" Version="5.0.0" />
 	</ItemGroup>
-	<ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard')) ">
-	</ItemGroup>
-	<ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
+	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
 		<Compile Include="Android\**\*.cs" />
-		<PackageReference Include="Xamarin.Firebase.Firestore" Version="124.10.2" />
+		<PackageReference Include="Xamarin.Firebase.Firestore" Version="125.0.0" />
 	</ItemGroup>
-	<ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
+	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
 		<Compile Include="iOS\**\*.cs" />
 		<PackageReference Include="AdamE.Firebase.iOS.CloudFirestore" Version="11.0.0" />
 	</ItemGroup>

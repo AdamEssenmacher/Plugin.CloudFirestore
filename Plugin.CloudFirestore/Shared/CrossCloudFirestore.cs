@@ -32,12 +32,12 @@ namespace Plugin.CloudFirestore
 
         static ICloudFirestore? CreateCloudFirestore()
         {
-#if NETSTANDARD
-            return null;
-#else
+#if ANDROID || IOS
 #pragma warning disable IDE0022 // Use expression body for methods
             return new CloudFirestoreImplementation();
 #pragma warning restore IDE0022 // Use expression body for methods
+#else
+            return null;
 #endif
         }
 
