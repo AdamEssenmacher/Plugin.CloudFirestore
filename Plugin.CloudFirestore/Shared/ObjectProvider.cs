@@ -1,24 +1,28 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Reflection;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Plugin.CloudFirestore
 {
-    internal static class ObjectProvider
+    public static class ObjectProvider
     {
-        private static class DocumentInfoCache<T>
+        public static void RegisterDocumentInfo<
+            [DynamicallyAccessedMembers(
+                DynamicallyAccessedMemberTypes.Interfaces |
+                DynamicallyAccessedMemberTypes.PublicProperties |
+                DynamicallyAccessedMemberTypes.PublicFields)] T>()
         {
-            public static readonly IDocumentInfo Instance = new DocumentInfo<T>();
+            _documentInfos.TryAdd(typeof(T), new DocumentInfo<T>());
+        }
+        
+        public static void RegisterListAdapterFactory<T>()
+        {
+            _listAdapterFactories.TryAdd(typeof(T), new ListAdapterFactory<T>());
         }
 
-        private static class ListAdapterFactoryCache<T>
+        public static void RegisterDictionaryAdapterFactory<TKey, TValue>()
         {
-            public static readonly IListAdapterFactory Instance = new ListAdapterFactory<T>();
-        }
-
-        private static class DictionaryAdapterFactoryCache<TKey, TValue>
-        {
-            public static readonly IDictionaryAdapterFactory Instance = new DictionaryAdapterFactory<TKey, TValue>();
+            _dictionaryAdapterFactories.TryAdd((typeof(TKey), typeof(TValue)), new DictionaryAdapterFactory<TKey, TValue>());
         }
 
         private static readonly ConcurrentDictionary<Type, IDocumentInfo> _documentInfos = new ConcurrentDictionary<Type, IDocumentInfo>();
@@ -28,65 +32,53 @@ namespace Plugin.CloudFirestore
         private static readonly IListAdapterFactory _listAdapterFactory = new ListAdapterFactory();
         private static readonly IDictionaryAdapterFactory _dictionaryAdapterFactory = new DictionaryAdapterFactory();
 
-        public static IDocumentInfo GetDocumentInfo(Type documentType)
+        internal static IDocumentInfo GetDocumentInfo(Type type)
         {
-            return _documentInfos.GetOrAdd(documentType, GetDocumentInfoCache);
+            if (_documentInfos.TryGetValue(type, out IDocumentInfo? documentInfo))
+                return documentInfo;
+
+            throw new InvalidOperationException($"Document type {type.FullName} has not been registered.");
         }
 
-        public static IDocumentInfo GetDocumentInfo<T>()
+        internal static IDocumentInfo GetDocumentInfo<T>()
         {
-            return DocumentInfoCache<T>.Instance;
+            return GetDocumentInfo(typeof(T));
         }
 
-        public static IListAdapterFactory GetListAdapterFactory(Type type)
+        internal static IListAdapterFactory GetListAdapterFactory(Type type)
         {
-            return _listAdapterFactories.GetOrAdd(type, GetListAdapterFactoryCache);
+            if (_listAdapterFactories.TryGetValue(type, out IListAdapterFactory? factory))
+                return factory;
+
+            throw new InvalidOperationException($"ListAdapterFactory type {type.FullName} has not been registered.");
         }
 
-        public static IListAdapterFactory GetListAdapterFactory<T>()
+        internal static IListAdapterFactory GetListAdapterFactory<T>()
         {
-            return ListAdapterFactoryCache<T>.Instance;
+            return GetListAdapterFactory(typeof(T));
         }
 
-        public static IListAdapterFactory GetListAdapterFactory()
+        internal static IListAdapterFactory GetListAdapterFactory()
         {
             return _listAdapterFactory;
         }
 
-        public static IDictionaryAdapterFactory GetDictionaryAdapterFactory(Type keyType, Type valueType)
+        internal static IDictionaryAdapterFactory GetDictionaryAdapterFactory(Type keyType, Type valueType)
         {
-            return _dictionaryAdapterFactories.GetOrAdd((keyType, valueType), GetDictionaryAdapterFactoryCache);
+            if (_dictionaryAdapterFactories.TryGetValue((keyType, valueType), out IDictionaryAdapterFactory? factory))
+                return factory;
+            
+            throw new InvalidOperationException($"DictionaryAdapterFactory type ({keyType.FullName}, {valueType.FullName}) has not been registered.");
         }
 
-        public static IDictionaryAdapterFactory GetDictionaryAdapterFactory<TKey, TValue>()
+        internal static IDictionaryAdapterFactory GetDictionaryAdapterFactory<TKey, TValue>()
         {
-            return DictionaryAdapterFactoryCache<TKey, TValue>.Instance;
+            return GetDictionaryAdapterFactory(typeof(TKey), typeof(TValue));
         }
 
-        public static IDictionaryAdapterFactory GetDictionaryAdapterFactory()
+        internal static IDictionaryAdapterFactory GetDictionaryAdapterFactory()
         {
             return _dictionaryAdapterFactory;
-        }
-
-        private static IDocumentInfo GetDocumentInfoCache(Type type)
-        {
-            return (IDocumentInfo)typeof(DocumentInfoCache<>).MakeGenericType(type)
-                .GetField("Instance", BindingFlags.Public | BindingFlags.Static)
-                .GetValue(null);
-        }
-
-        private static IListAdapterFactory GetListAdapterFactoryCache(Type type)
-        {
-            return (IListAdapterFactory)typeof(ListAdapterFactoryCache<>).MakeGenericType(type)
-                .GetField("Instance", BindingFlags.Public | BindingFlags.Static)
-                .GetValue(null);
-        }
-
-        private static IDictionaryAdapterFactory GetDictionaryAdapterFactoryCache((Type key, Type value) type)
-        {
-            return (IDictionaryAdapterFactory)typeof(DictionaryAdapterFactoryCache<,>).MakeGenericType(type.key, type.value)
-                .GetField("Instance", BindingFlags.Public | BindingFlags.Static)
-                .GetValue(null);
         }
     }
 }

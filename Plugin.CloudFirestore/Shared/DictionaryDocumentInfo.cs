@@ -64,7 +64,7 @@ namespace Plugin.CloudFirestore
                 _creator = _creatorType switch
                 {
                     CreatorType.SpecifiedType => CreatorProvider.GetCreator<T>(),
-                    CreatorType.SpecifiedTypeDictionary => CreatorProvider.GetCreator(typeof(Dictionary<,>).MakeGenericType(_dictionaryKeyType, _dictionaryValueType)),
+                    CreatorType.SpecifiedTypeDictionary => CreatorProvider.GetCreator<T>(),
                     CreatorType.ObjectDictionary => () => new Dictionary<string, object>(),
                     _ => throw new InvalidOperationException(),
                 };

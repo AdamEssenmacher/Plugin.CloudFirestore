@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace Plugin.CloudFirestore
@@ -60,7 +59,7 @@ namespace Plugin.CloudFirestore
                 _creator = _creatorType switch
                 {
                     CreatorType.SpecifiedType => CreatorProvider.GetCreator<T>(),
-                    CreatorType.SpecifiedTypeList => CreatorProvider.GetCreator(typeof(List<>).MakeGenericType(_listValueType)),
+                    CreatorType.SpecifiedTypeList => CreatorProvider.GetCreator<T>(),
                     CreatorType.ObjectList => () => new List<object>(),
                     _ => throw new InvalidOperationException(),
                 };

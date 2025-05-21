@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Plugin.CloudFirestore
 {
-    internal partial class DocumentInfo<T> : IDocumentInfo
+    internal partial class
+        DocumentInfo<[DynamicallyAccessedMembers(
+            DynamicallyAccessedMemberTypes.Interfaces |
+            DynamicallyAccessedMemberTypes.PublicProperties |
+            DynamicallyAccessedMemberTypes.PublicFields)] T> : IDocumentInfo
     {
         private readonly IDocumentInfo _objectDocumentInfo;
         private readonly IDocumentInfo? _listDocumentInfo;
@@ -12,7 +17,7 @@ namespace Plugin.CloudFirestore
 
         public DocumentInfo()
         {
-            if (_type.TryGetImplementingGenericType(out var implementingType, typeof(IDictionary<,>)))
+            if (typeof(T).TryGetImplementingGenericType(out var implementingType, typeof(IDictionary<,>)))
             {
                 _objectDocumentInfo = new DictionaryDocumentInfo<T>(implementingType);
             }
@@ -28,7 +33,7 @@ namespace Plugin.CloudFirestore
             {
                 _objectDocumentInfo = new ObjectDocumentInfo<T>();
 
-                if (_type.TryGetImplementingGenericType(out implementingType, typeof(ICollection<>)))
+                if (typeof(T).TryGetImplementingGenericType(out implementingType, typeof(ICollection<>)))
                 {
                     _listDocumentInfo = new ListDocumentInfo<T>(implementingType);
                 }
