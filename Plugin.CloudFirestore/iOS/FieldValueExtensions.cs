@@ -118,7 +118,7 @@ namespace Plugin.CloudFirestore
             {
                 null => new DocumentObject(),
                 NSNull _ => new DocumentObject(),
-                NSNumber number when number.IsBoolean() => new DocumentObject(number.BoolValue),
+                NSNumber number when number.IsBoolean() && fieldInfo.NullableUnderlyingType == typeof(bool) => new DocumentObject(number.BoolValue),
                 NSNumber number when number.IsInteger() => new DocumentObject(number.LongValue),
                 NSNumber number => new DocumentObject(number.DoubleValue),
                 NSString @string => new DocumentObject(@string.ToString()),
