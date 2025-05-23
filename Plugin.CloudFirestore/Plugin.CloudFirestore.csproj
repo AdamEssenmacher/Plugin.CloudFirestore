@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>net9.0;net9.0-ios;net9.0-android</TargetFrameworks>
+		<TargetFrameworks>net9.0-ios;net9.0-android</TargetFrameworks>
 		<AssemblyName>Plugin.CloudFirestore</AssemblyName>
 		<RootNamespace>Plugin.CloudFirestore</RootNamespace>
 		<PackageId>Scavos.CloudFirestore</PackageId>
