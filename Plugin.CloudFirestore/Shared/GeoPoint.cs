@@ -20,7 +20,9 @@ namespace Plugin.CloudFirestore
 
         public bool Equals(GeoPoint other)
         {
+            // ReSharper disable CompareOfFloatsByEqualityOperator
             return Latitude == other.Latitude && Longitude == other.Longitude;
+            // ReSharper restore CompareOfFloatsByEqualityOperator
         }
 
         public int CompareTo(GeoPoint other)

@@ -23,7 +23,7 @@ namespace Plugin.CloudFirestore
                 {
                     var value = fieldInfo.GetValue(target);
 
-                    if (fieldInfo.IsServerTimestampValue(value))
+                    if (value != null && fieldInfo.IsServerTimestampValue(value))
                     {
                         ret[fieldInfo.Name] = Firebase.CloudFirestore.FieldValue.ServerTimestamp;
                     }
@@ -54,7 +54,7 @@ namespace Plugin.CloudFirestore
                     var value = fieldInfo.GetValue(target);
                     var key = new NSString(fieldInfo.Name);
 
-                    if (fieldInfo.IsServerTimestampValue(value))
+                    if (value != null && fieldInfo.IsServerTimestampValue(value))
                     {
                         ret[key] = Firebase.CloudFirestore.FieldValue.ServerTimestamp;
                     }

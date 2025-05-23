@@ -400,6 +400,7 @@ namespace Plugin.CloudFirestore
                 }
                 else
                 {
+                    // ReSharper disable once AccessToModifiedClosure
                     tcs.SetResult(new DocumentReferenceWrapper(document!));
                 }
             });

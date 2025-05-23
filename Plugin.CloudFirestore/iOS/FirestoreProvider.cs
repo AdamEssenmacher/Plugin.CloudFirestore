@@ -6,21 +6,21 @@ namespace Plugin.CloudFirestore
 {
     internal static class FirestoreProvider
     {
-        private static ConcurrentDictionary<Firestore, Lazy<FirebaseFirestoreWrapper>> _firestores = new ConcurrentDictionary<Firestore, Lazy<FirebaseFirestoreWrapper>>();
+        private static ConcurrentDictionary<Firestore, Lazy<FirebaseFirestoreWrapper>> _firestores = new();
 
-        public static FirebaseFirestoreWrapper FirebaseFirestore { get; } = new FirebaseFirestoreWrapper(Firebase.CloudFirestore.Firestore.SharedInstance);
+        public static FirebaseFirestoreWrapper FirebaseFirestore { get; } = new(Firestore.SharedInstance);
 
         public static FirebaseFirestoreWrapper GetFirestore(string appName)
         {
             var app = Firebase.Core.App.From(appName);
             if (app == null)
                 throw new InvalidOperationException("Firestore app not found");
-            return GetFirestore(Firebase.CloudFirestore.Firestore.Create(app));
+            return GetFirestore(Firestore.Create(app));
         }
 
         public static FirebaseFirestoreWrapper GetFirestore(Firestore firestore)
         {
-            if (firestore == Firebase.CloudFirestore.Firestore.SharedInstance)
+            if (firestore.Equals(Firestore.SharedInstance))
             {
                 return FirebaseFirestore;
             }

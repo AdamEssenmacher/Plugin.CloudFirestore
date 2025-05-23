@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace Plugin.CloudFirestore
 {
-    public sealed partial class DocumentObject
+    public sealed class DocumentObject
     {
         private readonly Func<IDocumentFieldInfo, object?>? _creator;
 

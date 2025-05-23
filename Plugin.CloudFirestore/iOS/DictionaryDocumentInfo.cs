@@ -12,6 +12,7 @@ namespace Plugin.CloudFirestore
             var ret = new Dictionary<object, object>();
 
             var adapter = GetDictionaryAdapter(target);
+            // ReSharper disable once GenericEnumeratorNotDisposed
             var enumerator = adapter.GetEnumerator();
             while (enumerator.MoveNext())
             {
@@ -31,6 +32,7 @@ namespace Plugin.CloudFirestore
             var ret = new NSMutableDictionary();
 
             var adapter = GetDictionaryAdapter(target);
+            // ReSharper disable once GenericEnumeratorNotDisposed
             var enumerator = adapter.GetEnumerator();
             while (enumerator.MoveNext())
             {

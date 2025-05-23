@@ -4,23 +4,15 @@ namespace Plugin.CloudFirestore
     public partial class FirestoreSettings : IFirestoreSettings, IEquatable<FirestoreSettings>
     {
         private static string? _defaultHost;
-        private static bool _defaultIsPersistenceEnabled;
         private static bool _defaultIsSslEnabled;
-        private static long _defaultCacheSizeBytes;
 
         public string Host { get; set; }
-        public bool IsPersistenceEnabled { get; set; }
         public bool IsSslEnabled { get; set; }
-        public long CacheSizeBytes { get; set; }
-
-        public static long CacheSizeUnlimited { get; private set; }
 
         public FirestoreSettings()
         {
             Host = _defaultHost!;
-            IsPersistenceEnabled = _defaultIsPersistenceEnabled;
             IsSslEnabled = _defaultIsSslEnabled;
-            CacheSizeBytes = _defaultCacheSizeBytes;
         }
 
         public override bool Equals(object? obj)
@@ -34,17 +26,15 @@ namespace Plugin.CloudFirestore
             if (ReferenceEquals(this, other)) return true;
             if (GetType() != other.GetType()) return false;
             return Host == other.Host
-                && IsPersistenceEnabled == other.IsPersistenceEnabled
-                && IsSslEnabled == other.IsSslEnabled
-                && CacheSizeBytes == other.CacheSizeBytes;
+                   && IsSslEnabled == other.IsSslEnabled;
         }
 
         public override int GetHashCode()
         {
+            // ReSharper disable NonReadonlyMemberInGetHashCode
             return (Host.GetHashCode())
-                ^ IsPersistenceEnabled.GetHashCode()
-                ^ IsSslEnabled.GetHashCode()
-                ^ CacheSizeBytes.GetHashCode();
+                   ^ IsSslEnabled.GetHashCode();
+            // ReSharper restore NonReadonlyMemberInGetHashCode
         }
     }
 }

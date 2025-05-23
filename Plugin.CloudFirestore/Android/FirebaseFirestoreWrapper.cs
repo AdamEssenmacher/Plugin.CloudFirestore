@@ -20,9 +20,7 @@ namespace Plugin.CloudFirestore
             get => new FirestoreSettings(_firestore.FirestoreSettings);
             set => _firestore.FirestoreSettings = value is not null ? new FirebaseFirestoreSettings.Builder()
                 .SetHost(value.Host)
-                .SetPersistenceEnabled(value.IsPersistenceEnabled)
                 .SetSslEnabled(value.IsSslEnabled)
-                .SetCacheSizeBytes(value.CacheSizeBytes)
                 .Build() : throw new ArgumentNullException();
         }
 

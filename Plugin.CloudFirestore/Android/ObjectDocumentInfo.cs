@@ -38,7 +38,7 @@ namespace Plugin.CloudFirestore
                 {
                     var value = fieldInfo.GetValue(target);
 
-                    if (fieldInfo.IsServerTimestampValue(value))
+                    if (value != null && fieldInfo.IsServerTimestampValue(value))
                     {
                         ret[fieldInfo.Name] = Firebase.Firestore.FieldValue.ServerTimestamp();
                     }
@@ -109,6 +109,7 @@ namespace Plugin.CloudFirestore
         {
             var ret = Create();
 
+            // ReSharper disable once GenericEnumeratorNotDisposed
             var enumerator = dictionary.GetEnumerator();
             while (enumerator.MoveNext())
             {
