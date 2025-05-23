@@ -32,8 +32,8 @@ namespace Plugin.CloudFirestore
         private static Func<object> GetCreatorCache(Type type)
         {
             return (Func<object>)typeof(CreatorCache<>).MakeGenericType(type)
-                .GetField("Instance", BindingFlags.Public | BindingFlags.Static)
-                .GetValue(null);
+                .GetField("Instance", BindingFlags.Public | BindingFlags.Static)!
+                .GetValue(null)!;
         }
     }
 
@@ -47,7 +47,7 @@ namespace Plugin.CloudFirestore
             {
                 var constructor = type.GetConstructor(new[] { typeof(TArgument) });
                 var args = Expression.Parameter(typeof(TArgument), "args");
-                return Expression.Lambda<Func<TArgument, object>>(Expression.Convert(Expression.New(constructor, args), typeof(object)), args).Compile();
+                return Expression.Lambda<Func<TArgument, object>>(Expression.Convert(Expression.New(constructor!, args), typeof(object)), args).Compile();
             }
         }
 
@@ -66,8 +66,8 @@ namespace Plugin.CloudFirestore
         private static Func<TArgument, object> GetCreatorCache(Type type)
         {
             return (Func<TArgument, object>)typeof(CreatorCache<>).MakeGenericType(type)
-                .GetField("Instance", BindingFlags.Public | BindingFlags.Static)
-                .GetValue(null);
+                .GetField("Instance", BindingFlags.Public | BindingFlags.Static)!
+                .GetValue(null)!;
         }
     }
 }

@@ -42,7 +42,7 @@ namespace Plugin.CloudFirestore
                 .Select(d => new DocumentChangeWrapper(d));
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return Equals(obj as QuerySnapshotWrapper);
         }
@@ -58,7 +58,7 @@ namespace Plugin.CloudFirestore
 
         public override int GetHashCode()
         {
-            return _querySnapshot?.GetHashCode() ?? 0;
+            return _querySnapshot.GetHashCode();
         }
     }
 }

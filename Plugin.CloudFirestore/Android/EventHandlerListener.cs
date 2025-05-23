@@ -17,7 +17,7 @@ namespace Plugin.CloudFirestore
 
         public void OnEvent(Java.Lang.Object value, FirebaseFirestoreException error)
         {
-            _handler?.Invoke(value.JavaCast<T>(), error);
+            _handler.Invoke(value.JavaCast<T>(), error);
         }
     }
 }

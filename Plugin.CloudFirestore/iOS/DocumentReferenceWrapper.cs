@@ -33,7 +33,7 @@ namespace Plugin.CloudFirestore
         {
             _documentReference.GetDocument((snapshot, error) =>
             {
-                handler?.Invoke(snapshot == null ? null : new DocumentSnapshotWrapper(snapshot),
+                handler.Invoke(snapshot == null ? null : new DocumentSnapshotWrapper(snapshot),
                                 error == null ? null : ExceptionMapper.Map(error));
 
             });
@@ -43,7 +43,7 @@ namespace Plugin.CloudFirestore
         {
             _documentReference.GetDocument(source.ToNative(), (snapshot, error) =>
             {
-                handler?.Invoke(snapshot == null ? null : new DocumentSnapshotWrapper(snapshot),
+                handler.Invoke(snapshot == null ? null : new DocumentSnapshotWrapper(snapshot),
                                 error == null ? null : ExceptionMapper.Map(error));
 
             });
@@ -101,7 +101,7 @@ namespace Plugin.CloudFirestore
         {
             _documentReference.SetData(documentData.ToNativeFieldValues<object, NSString>()!, (error) =>
              {
-                 handler?.Invoke(error == null ? null : ExceptionMapper.Map(error));
+                 handler.Invoke(error == null ? null : ExceptionMapper.Map(error));
              });
         }
 
@@ -147,7 +147,7 @@ namespace Plugin.CloudFirestore
         {
             _documentReference.SetData(documentData.ToNativeFieldValues<object, NSString>()!, mergeFields, (error) =>
             {
-                handler?.Invoke(error == null ? null : ExceptionMapper.Map(error));
+                handler.Invoke(error == null ? null : ExceptionMapper.Map(error));
             });
         }
 
@@ -155,7 +155,7 @@ namespace Plugin.CloudFirestore
         {
             _documentReference.SetData(documentData.ToNativeFieldValues<object, NSString>()!, mergeFields.Select(x => x.ToNative()).ToArray(), (error) =>
             {
-                handler?.Invoke(error == null ? null : ExceptionMapper.Map(error));
+                handler.Invoke(error == null ? null : ExceptionMapper.Map(error));
             });
         }
 
@@ -239,7 +239,7 @@ namespace Plugin.CloudFirestore
         {
             _documentReference.SetData(documentData.ToNativeFieldValues<object, NSString>()!, merge, (error) =>
             {
-                handler?.Invoke(error == null ? null : ExceptionMapper.Map(error));
+                handler.Invoke(error == null ? null : ExceptionMapper.Map(error));
             });
         }
 
@@ -285,7 +285,7 @@ namespace Plugin.CloudFirestore
         {
             _documentReference.UpdateData(fields.ToNativeFieldValues<object, NSObject>()!, (error) =>
             {
-                handler?.Invoke(error == null ? null : ExceptionMapper.Map(error));
+                handler.Invoke(error == null ? null : ExceptionMapper.Map(error));
             });
         }
 
@@ -333,7 +333,7 @@ namespace Plugin.CloudFirestore
 
             _documentReference.UpdateData(fields, (error) =>
             {
-                handler?.Invoke(error == null ? null : ExceptionMapper.Map(error));
+                handler.Invoke(error == null ? null : ExceptionMapper.Map(error));
             });
         }
 
@@ -343,7 +343,7 @@ namespace Plugin.CloudFirestore
 
             _documentReference.UpdateData(fields, (error) =>
             {
-                handler?.Invoke(error == null ? null : ExceptionMapper.Map(error));
+                handler.Invoke(error == null ? null : ExceptionMapper.Map(error));
             });
         }
 
@@ -403,7 +403,7 @@ namespace Plugin.CloudFirestore
         {
             _documentReference.DeleteDocument((error) =>
             {
-                handler?.Invoke(error == null ? null : ExceptionMapper.Map(error));
+                handler.Invoke(error == null ? null : ExceptionMapper.Map(error));
             });
         }
 
@@ -435,7 +435,7 @@ namespace Plugin.CloudFirestore
         {
             var registration = _documentReference.AddSnapshotListener((snapshot, error) =>
             {
-                listener?.Invoke(snapshot == null ? null : new DocumentSnapshotWrapper(snapshot),
+                listener.Invoke(snapshot == null ? null : new DocumentSnapshotWrapper(snapshot),
                                  error == null ? null : ExceptionMapper.Map(error));
             });
 
@@ -446,7 +446,7 @@ namespace Plugin.CloudFirestore
         {
             var registration = _documentReference.AddSnapshotListener(includeMetadataChanges, (snapshot, error) =>
             {
-                listener?.Invoke(snapshot == null ? null : new DocumentSnapshotWrapper(snapshot),
+                listener.Invoke(snapshot == null ? null : new DocumentSnapshotWrapper(snapshot),
                                  error == null ? null : ExceptionMapper.Map(error));
             });
 
@@ -469,7 +469,7 @@ namespace Plugin.CloudFirestore
 
         public override int GetHashCode()
         {
-            return _documentReference?.GetHashCode() ?? 0;
+            return _documentReference.GetHashCode();
         }
 
         DocumentReference IDocumentReference.ToNative()

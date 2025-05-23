@@ -58,7 +58,7 @@ namespace Plugin.CloudFirestore
 
         public override int GetHashCode()
         {
-            return _querySnapshot?.GetHashCode() ?? 0;
+            return _querySnapshot.GetHashCode();
         }
     }
 }

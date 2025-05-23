@@ -53,7 +53,7 @@ namespace Plugin.CloudFirestore
             var ret = Create();
             var adapter = GetListAdapter(ret);
 
-            var iterator = list.Iterator()!;
+            var iterator = list.Iterator();
             while (iterator.HasNext)
             {
                 object? value = iterator.Next();

@@ -41,7 +41,7 @@ namespace Plugin.CloudFirestore
 
         public override int GetHashCode()
         {
-            return (Host?.GetHashCode() ?? 0)
+            return (Host.GetHashCode())
                 ^ IsPersistenceEnabled.GetHashCode()
                 ^ IsSslEnabled.GetHashCode()
                 ^ CacheSizeBytes.GetHashCode();

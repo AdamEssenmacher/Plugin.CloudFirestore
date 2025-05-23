@@ -20,10 +20,9 @@ namespace Plugin.CloudFirestore
 
             implementingType = type.GetInterfaces()
                 .Where(x => x.IsGenericType)
-                .Where(x => x.GetGenericTypeDefinition() == targetType)
-                .FirstOrDefault();
+                .FirstOrDefault(x => x.GetGenericTypeDefinition() == targetType)!;
 
-            return implementingType != null;
+            return implementingType != null!;
         }
 
         public static bool IsGenericDefinition(this Type type, Type genericDefinition)

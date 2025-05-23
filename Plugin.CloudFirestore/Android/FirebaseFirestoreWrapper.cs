@@ -54,7 +54,7 @@ namespace Plugin.CloudFirestore
 
                          if (task.IsSuccessful)
                          {
-                             result = task.Result.JavaCast<ObjectHolder<T>>()!.Object;
+                             result = task.Result.JavaCast<ObjectHolder<T>>().Object;
                          }
                          else
                          {
@@ -63,7 +63,7 @@ namespace Plugin.CloudFirestore
                                  : ExceptionMapper.Map(task.Exception);
                          }
 
-                         completionHandler?.Invoke(result, exception);
+                         completionHandler.Invoke(result, exception);
                      }));
         }
 
@@ -77,7 +77,7 @@ namespace Plugin.CloudFirestore
                          if (task.IsSuccessful)
                          {
                              var result = task.Result.JavaCast<ObjectHolder<T>>();
-                             tcs.SetResult(result!.Object);
+                             tcs.SetResult(result.Object);
                          }
                          else
                          {
@@ -109,7 +109,7 @@ namespace Plugin.CloudFirestore
                                  : ExceptionMapper.Map(task.Exception);
                          }
 
-                         completionHandler?.Invoke(exception);
+                         completionHandler.Invoke(exception);
                      }));
         }
 
@@ -206,7 +206,7 @@ namespace Plugin.CloudFirestore
         {
             _firestore.EnableNetwork().AddOnCompleteListener(new OnCompleteHandlerListener((task) =>
             {
-                handler?.Invoke(task.IsSuccessful ? null : ExceptionMapper.Map(task.Exception));
+                handler.Invoke(task.IsSuccessful ? null : ExceptionMapper.Map(task.Exception));
             }));
         }
 
@@ -233,7 +233,7 @@ namespace Plugin.CloudFirestore
         {
             _firestore.DisableNetwork().AddOnCompleteListener(new OnCompleteHandlerListener((task) =>
             {
-                handler?.Invoke(task.IsSuccessful ? null : ExceptionMapper.Map(task.Exception));
+                handler.Invoke(task.IsSuccessful ? null : ExceptionMapper.Map(task.Exception));
             }));
         }
 
@@ -335,7 +335,7 @@ namespace Plugin.CloudFirestore
 
         public override int GetHashCode()
         {
-            return _firestore?.GetHashCode() ?? 0;
+            return _firestore.GetHashCode();
         }
     }
 }

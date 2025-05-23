@@ -11,7 +11,7 @@ namespace Plugin.CloudFirestore
         public JavaDictionary<string, Java.Lang.Object?> ConvertToFieldObject(object target)
         {
             var targetType = target.GetType();
-            if (targetType != null && _type != targetType)
+            if (_type != targetType)
             {
                 return ObjectProvider.GetDocumentInfo(targetType).ConvertToFieldObject(target);
             }
@@ -21,7 +21,7 @@ namespace Plugin.CloudFirestore
         public object ConvertToFieldValue(object target)
         {
             var targetType = target.GetType();
-            if (targetType != null && _type != targetType)
+            if (_type != targetType)
             {
                 return ObjectProvider.GetDocumentInfo(targetType).ConvertToFieldValue(target);
             }
@@ -113,9 +113,13 @@ namespace Plugin.CloudFirestore
             while (enumerator.MoveNext())
             {
                 var entry = enumerator.Entry;
-                if (DocumentFieldInfos.TryGetValue(entry.Key.ToString(), out var fieldInfo))
+                var keyString = entry.Key.ToString();
+                if (keyString == null)
+                    throw new Exception("keyString cannot be null here");
+
+                if (DocumentFieldInfos.TryGetValue(keyString, out var fieldInfo))
                 {
-                    object value = entry.Value;
+                    object? value = entry.Value;
                     fieldInfo.SetValue(ret, value.ToFieldValue(fieldInfo));
                 }
             }
@@ -127,9 +131,13 @@ namespace Plugin.CloudFirestore
         {
             var ret = Create();
 
-            foreach (var key in map.KeySet()!)
+            foreach (var key in map.KeySet())
             {
-                if (DocumentFieldInfos.TryGetValue(key.ToString(), out var fieldInfo))
+                var keyString = key.ToString();
+                if (keyString == null)
+                    throw new Exception("keyString cannot be null here");
+
+                if (DocumentFieldInfos.TryGetValue(keyString, out var fieldInfo))
                 {
                     object? value = map.Get(key.ToString());
                     fieldInfo.SetValue(ret, value.ToFieldValue(fieldInfo));

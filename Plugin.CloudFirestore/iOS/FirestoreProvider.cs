@@ -13,6 +13,8 @@ namespace Plugin.CloudFirestore
         public static FirebaseFirestoreWrapper GetFirestore(string appName)
         {
             var app = Firebase.Core.App.From(appName);
+            if (app == null)
+                throw new InvalidOperationException("Firestore app not found");
             return GetFirestore(Firebase.CloudFirestore.Firestore.Create(app));
         }
 

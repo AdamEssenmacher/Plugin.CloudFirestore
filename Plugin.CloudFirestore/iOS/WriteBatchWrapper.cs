@@ -97,7 +97,7 @@ namespace Plugin.CloudFirestore
 
         public override int GetHashCode()
         {
-            return _writeBatch?.GetHashCode() ?? 0;
+            return _writeBatch.GetHashCode();
         }
     }
 }

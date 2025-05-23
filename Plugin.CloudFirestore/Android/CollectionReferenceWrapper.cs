@@ -44,7 +44,7 @@ namespace Plugin.CloudFirestore
 
         public IQuery OrderBy(FieldPath field)
         {
-            var query = _collectionReference.OrderBy(field?.ToNative());
+            var query = _collectionReference.OrderBy(field.ToNative());
             return new QueryWrapper(query);
         }
 
@@ -60,7 +60,7 @@ namespace Plugin.CloudFirestore
         {
             var direction = descending ? Query.Direction.Descending : Query.Direction.Ascending;
 
-            var query = _collectionReference.OrderBy(field?.ToNative(), direction);
+            var query = _collectionReference.OrderBy(field.ToNative(), direction);
             return new QueryWrapper(query);
         }
 
@@ -72,7 +72,7 @@ namespace Plugin.CloudFirestore
 
         public IQuery WhereEqualsTo(FieldPath field, object? value)
         {
-            var query = _collectionReference.WhereEqualTo(field?.ToNative(), value.ToNativeFieldValue());
+            var query = _collectionReference.WhereEqualTo(field.ToNative(), value.ToNativeFieldValue());
             return new QueryWrapper(query);
         }
 
@@ -84,7 +84,7 @@ namespace Plugin.CloudFirestore
 
         public IQuery WhereGreaterThan(FieldPath field, object value)
         {
-            var query = _collectionReference.WhereGreaterThan(field?.ToNative(), value.ToNativeFieldValue());
+            var query = _collectionReference.WhereGreaterThan(field.ToNative(), value.ToNativeFieldValue());
             return new QueryWrapper(query);
         }
 
@@ -96,7 +96,7 @@ namespace Plugin.CloudFirestore
 
         public IQuery WhereGreaterThanOrEqualsTo(FieldPath field, object value)
         {
-            var query = _collectionReference.WhereGreaterThanOrEqualTo(field?.ToNative(), value.ToNativeFieldValue());
+            var query = _collectionReference.WhereGreaterThanOrEqualTo(field.ToNative(), value.ToNativeFieldValue());
             return new QueryWrapper(query);
         }
 
@@ -108,7 +108,7 @@ namespace Plugin.CloudFirestore
 
         public IQuery WhereLessThan(FieldPath field, object value)
         {
-            var query = _collectionReference.WhereLessThan(field?.ToNative(), value.ToNativeFieldValue());
+            var query = _collectionReference.WhereLessThan(field.ToNative(), value.ToNativeFieldValue());
             return new QueryWrapper(query);
         }
 
@@ -120,7 +120,7 @@ namespace Plugin.CloudFirestore
 
         public IQuery WhereLessThanOrEqualsTo(FieldPath field, object value)
         {
-            var query = _collectionReference.WhereLessThanOrEqualTo(field?.ToNative(), value.ToNativeFieldValue());
+            var query = _collectionReference.WhereLessThanOrEqualTo(field.ToNative(), value.ToNativeFieldValue());
             return new QueryWrapper(query);
         }
 
@@ -132,31 +132,31 @@ namespace Plugin.CloudFirestore
 
         public IQuery WhereArrayContains(FieldPath field, object value)
         {
-            var query = _collectionReference.WhereArrayContains(field?.ToNative(), value.ToNativeFieldValue());
+            var query = _collectionReference.WhereArrayContains(field.ToNative(), value.ToNativeFieldValue());
             return new QueryWrapper(query);
         }
 
         public IQuery WhereArrayContainsAny(string field, IEnumerable<object> values)
         {
-            var query = _collectionReference.WhereArrayContainsAny(field, values?.Select(x => x.ToNativeFieldValue()).ToList());
+            var query = _collectionReference.WhereArrayContainsAny(field, values.Select(x => x.ToNativeFieldValue()).ToList());
             return new QueryWrapper(query);
         }
 
         public IQuery WhereArrayContainsAny(FieldPath field, IEnumerable<object> values)
         {
-            var query = _collectionReference.WhereArrayContainsAny(field?.ToNative(), values?.Select(x => x.ToNativeFieldValue()).ToList());
+            var query = _collectionReference.WhereArrayContainsAny(field.ToNative(), values.Select(x => x.ToNativeFieldValue()).ToList());
             return new QueryWrapper(query);
         }
 
         public IQuery WhereIn(string field, IEnumerable<object> values)
         {
-            var query = _collectionReference.WhereIn(field, values?.Select(x => x.ToNativeFieldValue()).ToList());
+            var query = _collectionReference.WhereIn(field, values.Select(x => x.ToNativeFieldValue()).ToList());
             return new QueryWrapper(query);
         }
 
         public IQuery WhereIn(FieldPath field, IEnumerable<object> values)
         {
-            var query = _collectionReference.WhereIn(field?.ToNative(), values?.Select(x => x.ToNativeFieldValue()).ToList());
+            var query = _collectionReference.WhereIn(field.ToNative(), values.Select(x => x.ToNativeFieldValue()).ToList());
             return new QueryWrapper(query);
         }
 
@@ -168,19 +168,19 @@ namespace Plugin.CloudFirestore
 
         public IQuery WhereNotEqualTo(FieldPath field, object value)
         {
-            var query = _collectionReference.WhereNotEqualTo(field?.ToNative(), value.ToNativeFieldValue());
+            var query = _collectionReference.WhereNotEqualTo(field.ToNative(), value.ToNativeFieldValue());
             return new QueryWrapper(query);
         }
 
         public IQuery WhereNotIn(string field, IEnumerable<object> values)
         {
-            var query = _collectionReference.WhereNotIn(field, values?.Select(x => x.ToNativeFieldValue()).ToList());
+            var query = _collectionReference.WhereNotIn(field, values.Select(x => x.ToNativeFieldValue()).ToList());
             return new QueryWrapper(query);
         }
 
         public IQuery WhereNotIn(FieldPath field, IEnumerable<object> values)
         {
-            var query = _collectionReference.WhereNotIn(field?.ToNative(), values?.Select(x => x.ToNativeFieldValue()).ToList());
+            var query = _collectionReference.WhereNotIn(field.ToNative(), values.Select(x => x.ToNativeFieldValue()).ToList());
             return new QueryWrapper(query);
         }
 
@@ -249,7 +249,7 @@ namespace Plugin.CloudFirestore
             _collectionReference.Get().AddOnCompleteListener(new OnCompleteHandlerListener((task) =>
             {
                 var snapshot = !task.IsSuccessful ? null : task.Result.JavaCast<QuerySnapshot>();
-                handler?.Invoke(snapshot == null ? null : new QuerySnapshotWrapper(snapshot),
+                handler.Invoke(snapshot == null ? null : new QuerySnapshotWrapper(snapshot),
                                 task.IsSuccessful ? null : ExceptionMapper.Map(task.Exception));
             }));
         }
@@ -259,7 +259,7 @@ namespace Plugin.CloudFirestore
             _collectionReference.Get(source.ToNative()).AddOnCompleteListener(new OnCompleteHandlerListener((task) =>
             {
                 var snapshot = !task.IsSuccessful ? null : task.Result.JavaCast<QuerySnapshot>();
-                handler?.Invoke(snapshot == null ? null : new QuerySnapshotWrapper(snapshot),
+                handler.Invoke(snapshot == null ? null : new QuerySnapshotWrapper(snapshot),
                                 task.IsSuccessful ? null : ExceptionMapper.Map(task.Exception));
             }));
         }
@@ -278,7 +278,7 @@ namespace Plugin.CloudFirestore
                 if (task.IsSuccessful)
                 {
                     var snapshot = task.Result.JavaCast<QuerySnapshot>();
-                    tcs.SetResult(new QuerySnapshotWrapper(snapshot!));
+                    tcs.SetResult(new QuerySnapshotWrapper(snapshot));
                 }
                 else
                 {
@@ -303,7 +303,7 @@ namespace Plugin.CloudFirestore
                 if (task.IsSuccessful)
                 {
                     var snapshot = task.Result.JavaCast<QuerySnapshot>();
-                    tcs.SetResult(new QuerySnapshotWrapper(snapshot!));
+                    tcs.SetResult(new QuerySnapshotWrapper(snapshot));
                 }
                 else
                 {
@@ -319,7 +319,7 @@ namespace Plugin.CloudFirestore
             _collectionReference.Add(data.ToNativeFieldValues())
                                 .AddOnCompleteListener(new OnCompleteHandlerListener((task) =>
                                 {
-                                    handler?.Invoke(task.IsSuccessful ? null : ExceptionMapper.Map(task.Exception));
+                                    handler.Invoke(task.IsSuccessful ? null : ExceptionMapper.Map(task.Exception));
                                 }));
         }
 
@@ -353,7 +353,7 @@ namespace Plugin.CloudFirestore
                                     if (task.IsSuccessful)
                                     {
                                         var document = task.Result.JavaCast<DocumentReference>();
-                                        tcs.SetResult(new DocumentReferenceWrapper(document!));
+                                        tcs.SetResult(new DocumentReferenceWrapper(document));
                                     }
                                     else
                                     {
@@ -368,7 +368,7 @@ namespace Plugin.CloudFirestore
         {
             var registration = _collectionReference.AddSnapshotListener(new EventHandlerListener<QuerySnapshot>((value, error) =>
             {
-                listener?.Invoke(value == null ? null : new QuerySnapshotWrapper(value),
+                listener.Invoke(value == null ? null : new QuerySnapshotWrapper(value),
                                  error == null ? null : ExceptionMapper.Map(error));
             }));
 
@@ -379,7 +379,7 @@ namespace Plugin.CloudFirestore
         {
             var registration = _collectionReference.AddSnapshotListener(includeMetadataChanges ? MetadataChanges.Include : MetadataChanges.Exclude, new EventHandlerListener<QuerySnapshot>((value, error) =>
             {
-                listener?.Invoke(value == null ? null : new QuerySnapshotWrapper(value),
+                listener.Invoke(value == null ? null : new QuerySnapshotWrapper(value),
                                  error == null ? null : ExceptionMapper.Map(error));
             }));
 
@@ -402,7 +402,7 @@ namespace Plugin.CloudFirestore
 
         public override int GetHashCode()
         {
-            return _collectionReference?.GetHashCode() ?? 0;
+            return _collectionReference.GetHashCode();
         }
     }
 }

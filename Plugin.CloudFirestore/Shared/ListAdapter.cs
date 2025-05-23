@@ -50,7 +50,7 @@ namespace Plugin.CloudFirestore
             {
                 return _enumerable.ToArray();
             }
-            return _collection.ToArray();
+            return _collection!.ToArray();
         }
     }
 

@@ -30,7 +30,7 @@ namespace Plugin.CloudFirestore
             }
         }
 
-        static ICloudFirestore? CreateCloudFirestore()
+        static ICloudFirestore CreateCloudFirestore()
         {
 #if ANDROID || IOS
 #pragma warning disable IDE0022 // Use expression body for methods

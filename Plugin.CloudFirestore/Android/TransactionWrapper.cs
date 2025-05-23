@@ -109,7 +109,7 @@ namespace Plugin.CloudFirestore
 
         public ITransaction Update(IDocumentReference document, FieldPath field, object? value, params object?[] moreFieldsAndValues)
         {
-            _transaction.Update(document.ToNative(), field?.ToNative(), value.ToNativeFieldValue(), moreFieldsAndValues.Select(x => x.ToNativeFieldValue()).ToArray());
+            _transaction.Update(document.ToNative(), field.ToNative(), value.ToNativeFieldValue(), moreFieldsAndValues.Select(x => x.ToNativeFieldValue()).ToArray());
             return this;
         }
 
@@ -140,7 +140,7 @@ namespace Plugin.CloudFirestore
 
         public override int GetHashCode()
         {
-            return _transaction?.GetHashCode() ?? 0;
+            return _transaction.GetHashCode();
         }
     }
 }

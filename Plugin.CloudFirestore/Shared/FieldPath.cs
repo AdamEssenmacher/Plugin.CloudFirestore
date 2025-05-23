@@ -37,8 +37,8 @@ namespace Plugin.CloudFirestore
             switch (expression)
             {
                 case MemberExpression member:
-                    AddNames(member.Expression, names);
-                    names.Add(GetMappingName(member.Expression.Type, member.Member.Name));
+                    AddNames(member.Expression!, names);
+                    names.Add(GetMappingName(member.Expression!.Type, member.Member.Name));
                     break;
                 case ParameterExpression _:
                     break;

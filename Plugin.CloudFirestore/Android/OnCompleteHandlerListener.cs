@@ -14,7 +14,7 @@ namespace Plugin.CloudFirestore
 
         public void OnComplete(Task task)
         {
-            _handler?.Invoke(task);
+            _handler.Invoke(task);
         }
     }
 }

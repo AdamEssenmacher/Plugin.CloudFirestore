@@ -1,7 +1,6 @@
 ﻿using System;
 using Firebase.Firestore;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Plugin.CloudFirestore
 {
@@ -29,43 +28,37 @@ namespace Plugin.CloudFirestore
             return Exists ? DocumentMapper.Map(_documentSnapshot, serverTimestampBehavior) : null;
         }
 
-        [return: MaybeNull]
-        public T ToObject<T>()
+        public T? ToObject<T>()
         {
             return DocumentMapper.Map<T>(_documentSnapshot);
         }
 
-        [return: MaybeNull]
-        public T ToObject<T>(ServerTimestampBehavior serverTimestampBehavior)
+        public T? ToObject<T>(ServerTimestampBehavior serverTimestampBehavior)
         {
             return DocumentMapper.Map<T>(_documentSnapshot, serverTimestampBehavior);
         }
 
-        [return: MaybeNull]
-        public T Get<T>(string field)
+        public T? Get<T>(string field)
         {
             var value = _documentSnapshot.Get(field).ToFieldValue(new DocumentFieldInfo<T>());
             return value is not null ? (T)value : default;
         }
 
-        [return: MaybeNull]
-        public T Get<T>(string field, ServerTimestampBehavior serverTimestampBehavior)
+        public T? Get<T>(string field, ServerTimestampBehavior serverTimestampBehavior)
         {
             var value = _documentSnapshot.Get(field, serverTimestampBehavior.ToNative()).ToFieldValue(new DocumentFieldInfo<T>());
             return value is not null ? (T)value : default;
         }
 
-        [return: MaybeNull]
-        public T Get<T>(FieldPath field)
+        public T? Get<T>(FieldPath field)
         {
-            var value = _documentSnapshot.Get(field?.ToNative()).ToFieldValue(new DocumentFieldInfo<T>());
+            var value = _documentSnapshot.Get(field.ToNative()).ToFieldValue(new DocumentFieldInfo<T>());
             return value is not null ? (T)value : default;
         }
 
-        [return: MaybeNull]
-        public T Get<T>(FieldPath field, ServerTimestampBehavior serverTimestampBehavior)
+        public T? Get<T>(FieldPath field, ServerTimestampBehavior serverTimestampBehavior)
         {
-            var value = _documentSnapshot.Get(field?.ToNative(), serverTimestampBehavior.ToNative()).ToFieldValue(new DocumentFieldInfo<T>());
+            var value = _documentSnapshot.Get(field.ToNative(), serverTimestampBehavior.ToNative()).ToFieldValue(new DocumentFieldInfo<T>());
             return value is not null ? (T)value : default;
         }
 
@@ -85,7 +78,7 @@ namespace Plugin.CloudFirestore
 
         public override int GetHashCode()
         {
-            return _documentSnapshot?.GetHashCode() ?? 0;
+            return _documentSnapshot.GetHashCode();
         }
 
         DocumentSnapshot IDocumentSnapshot.ToNative()

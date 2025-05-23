@@ -25,7 +25,7 @@ namespace Plugin.CloudFirestore
                 {
                     var constructor = type.GetConstructor(new[] { typeof(Type) });
                     result = Expression.Lambda<Func<Type, object?[]?, DocumentConverter>>(
-                        Expression.New(constructor, targetType), targetType, parameters).Compile();
+                        Expression.New(constructor!, targetType), targetType, parameters).Compile();
                 }
                 else
                 {
@@ -35,7 +35,7 @@ namespace Plugin.CloudFirestore
                         argumentTypes.Select((type, i) => Expression.Convert(Expression.ArrayIndex(parameters, Expression.Constant(i)), type)));
 
                     var creator = Expression.Lambda<Func<Type, object?[]?, DocumentConverter>>(
-                        Expression.New(constructor, expressons), targetType, parameters).Compile();
+                        Expression.New(constructor!, expressons), targetType, parameters).Compile();
 
                     var defaultValues = Expression.Lambda<Func<object[]>>(
                         Expression.NewArrayInit(typeof(object), argumentTypes.Select(type =>
@@ -86,8 +86,8 @@ namespace Plugin.CloudFirestore
         private static Func<Type, object?[]?, DocumentConverter> GetCreatorCache(Type type)
         {
             return (Func<Type, object?[]?, DocumentConverter>)typeof(CreatorCache<>).MakeGenericType(type)
-                .GetField("Instance", BindingFlags.Public | BindingFlags.Static)
-                .GetValue(null);
+                .GetField("Instance", BindingFlags.Public | BindingFlags.Static)!
+                .GetValue(null)!;
         }
     }
 }

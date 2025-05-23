@@ -74,7 +74,7 @@ namespace Plugin.CloudFirestore
 
         public void UpdateData(IDocumentReference document, FieldPath field, object? value, params object?[] moreFieldsAndValues)
         {
-            _writeBatch.Update(document.ToNative(), field?.ToNative(), value.ToNativeFieldValue(), moreFieldsAndValues.Select(x => x.ToNativeFieldValue()).ToArray());
+            _writeBatch.Update(document.ToNative(), field.ToNative(), value.ToNativeFieldValue(), moreFieldsAndValues.Select(x => x.ToNativeFieldValue()).ToArray());
         }
 
         public void DeleteDocument(IDocumentReference document)
@@ -98,7 +98,7 @@ namespace Plugin.CloudFirestore
 
         public override int GetHashCode()
         {
-            return _writeBatch?.GetHashCode() ?? 0;
+            return _writeBatch.GetHashCode();
         }
     }
 }
