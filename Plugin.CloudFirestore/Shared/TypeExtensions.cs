@@ -8,9 +8,7 @@ namespace Plugin.CloudFirestore
 {
     internal static class TypeExtensions
     {
-        public static bool TryGetImplementingGenericType(
-            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)] this Type type,
-            out Type implementingType, Type targetType)
+        public static bool TryGetImplementingGenericType(this Type type, out Type implementingType, Type targetType)
         {
             if (type.IsInterface && type.IsGenericType)
             {

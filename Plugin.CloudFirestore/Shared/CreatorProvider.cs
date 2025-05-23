@@ -1,43 +1,73 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Plugin.CloudFirestore
 {
-    public static class CreatorProvider
+    internal static class CreatorProvider
     {
-        private static class CreatorCache<
-            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T>
+        private static class CreatorCache<T>
         {
             public static readonly Func<object> Instance = CreateCreator(typeof(T));
 
-            private static Func<object> CreateCreator(
-                [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] Type type)
+            private static Func<object> CreateCreator(Type type)
             {
-                return () => Activator.CreateInstance(type)!;
+                return Expression.Lambda<Func<object>>(Expression.Convert(Expression.New(type), typeof(object))).Compile();
             }
         }
 
-        public static void Register<T>() where T : new()
+        private static ConcurrentDictionary<Type, Func<object>> _creators = new ConcurrentDictionary<Type, Func<object>>();
+
+        public static Func<object> GetCreator(Type type)
         {
-            Creators[typeof(T)] = CreatorCache<T>.Instance;
+            return _creators.GetOrAdd(type, GetCreatorCache);
         }
 
-        private static readonly ConcurrentDictionary<Type, Func<object>> Creators = new();
-
-        internal static Func<object> GetCreator(Type type)
+        public static Func<object> GetCreator<T>()
         {
-            if (Creators.TryGetValue(type, out Func<object>? creator))
-                return creator;
-
-            throw new InvalidOperationException($"No creator registered for {type.FullName}. Call CreatorProvider.Register<T>() at startup.");
+            return CreatorCache<T>.Instance;
         }
 
-        internal static Func<object> GetCreator<T>()
+        private static Func<object> GetCreatorCache(Type type)
         {
-            return GetCreator(typeof(T));
+            return (Func<object>)typeof(CreatorCache<>).MakeGenericType(type)
+                .GetField("Instance", BindingFlags.Public | BindingFlags.Static)
+                .GetValue(null);
+        }
+    }
+
+    internal static class CreatorProvider<TArgument>
+    {
+        private static class CreatorCache<T>
+        {
+            public static readonly Func<TArgument, object> Instance = CreateCreator(typeof(T));
+
+            private static Func<TArgument, object> CreateCreator(Type type)
+            {
+                var constructor = type.GetConstructor(new[] { typeof(TArgument) });
+                var args = Expression.Parameter(typeof(TArgument), "args");
+                return Expression.Lambda<Func<TArgument, object>>(Expression.Convert(Expression.New(constructor, args), typeof(object)), args).Compile();
+            }
+        }
+
+        private static ConcurrentDictionary<Type, Func<TArgument, object>> _creators = new ConcurrentDictionary<Type, Func<TArgument, object>>();
+
+        public static Func<TArgument, object> GetCreator(Type type)
+        {
+            return _creators.GetOrAdd(type, GetCreatorCache);
+        }
+
+        public static Func<TArgument, object> GetCreator<T>()
+        {
+            return CreatorCache<T>.Instance;
+        }
+
+        private static Func<TArgument, object> GetCreatorCache(Type type)
+        {
+            return (Func<TArgument, object>)typeof(CreatorCache<>).MakeGenericType(type)
+                .GetField("Instance", BindingFlags.Public | BindingFlags.Static)
+                .GetValue(null);
         }
     }
 }

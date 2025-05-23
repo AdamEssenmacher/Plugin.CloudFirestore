@@ -6,8 +6,8 @@
 		<RootNamespace>Plugin.CloudFirestore</RootNamespace>
 		<PackageId>Scavos.CloudFirestore</PackageId>
 		<Product>$(AssemblyName) ($(TargetFramework))</Product>
-		<Version>4.1.0</Version>
-		<PackageVersion>4.1.0</PackageVersion>
+		<Version>3.4.0</Version>
+		<PackageVersion>3.4.0</PackageVersion>
 		<PackOnBuild>true</PackOnBuild>
 		<NeutralLanguage>en</NeutralLanguage>
 		<DefineConstants>$(DefineConstants);</DefineConstants>
@@ -23,10 +23,6 @@
 		<Authors>f-miyu</Authors>
 		<Copyright>Copyright (c) 2018 f-miyu</Copyright>
 		<Nullable>enable</Nullable>
-	</PropertyGroup>
-	<PropertyGroup>
-		<IsAotCompatible>true</IsAotCompatible>
-		<ILLinkTreatWarningsAsErrors>true</ILLinkTreatWarningsAsErrors>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)'=='Debug' ">
 		<DebugSymbols>true</DebugSymbols>

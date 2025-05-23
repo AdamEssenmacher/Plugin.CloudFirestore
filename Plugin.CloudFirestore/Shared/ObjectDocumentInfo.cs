@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 
 namespace Plugin.CloudFirestore
 {
-    internal partial class ObjectDocumentInfo<
-        [DynamicallyAccessedMembers(
-            DynamicallyAccessedMemberTypes.PublicFields |
-            DynamicallyAccessedMemberTypes.PublicProperties)]
-        T> : IDocumentInfo
+    internal partial class ObjectDocumentInfo<T> : IDocumentInfo
     {
         private readonly Type _type = typeof(T);
         private Func<object>? _creator;
@@ -18,10 +13,10 @@ namespace Plugin.CloudFirestore
         public ObjectDocumentInfo()
         {
             _documentFieldInfos = new Lazy<IReadOnlyDictionary<string, MemberDocumentFieldInfo>>(() =>
-                typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                _type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
                     .Where(x => x.GetIndexParameters().Length == 0)
                     .Cast<MemberInfo>()
-                    .Concat(typeof(T).GetFields(BindingFlags.Public | BindingFlags.Instance))
+                    .Concat(_type.GetFields(BindingFlags.Public | BindingFlags.Instance))
                     .Select(x => new MemberDocumentFieldInfo(x))
                     .Where(x => !x.IsIgnored)
                     .ToDictionary(x => x.Name), System.Threading.LazyThreadSafetyMode.PublicationOnly);

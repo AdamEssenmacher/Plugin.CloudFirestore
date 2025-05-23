@@ -1,28 +1,19 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using Plugin.CloudFirestore.Converters;
 
 namespace Plugin.CloudFirestore
 {
-    public class DocumentConverterCreatorProvider
+    internal class DocumentConverterCreatorProvider
     {
-        private static readonly ConcurrentDictionary<Type, object?> DefaultValues = new();
-
-        public static void RegisterDefault<T>(T? defaultValue = default)
-        {
-            DefaultValues.AddOrUpdate(typeof(T), defaultValue, (_, _) => defaultValue);
-        }
-
-        private static class CreatorCache<
-            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>
+        private static class CreatorCache<T>
         {
             public static readonly Func<Type, object?[]?, DocumentConverter> Instance = CreateCreator(typeof(T));
 
-            private static Func<Type, object?[]?, DocumentConverter> CreateCreator(
-                [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] Type type)
+            private static Func<Type, object?[]?, DocumentConverter> CreateCreator(Type type)
             {
                 var argumentTypes = GetGenericArguments(type);
 
@@ -46,17 +37,9 @@ namespace Plugin.CloudFirestore
                     var creator = Expression.Lambda<Func<Type, object?[]?, DocumentConverter>>(
                         Expression.New(constructor, expressons), targetType, parameters).Compile();
 
-                    foreach(var argType in argumentTypes)
-                    {
-                        if (argType.IsValueType && !DefaultValues.ContainsKey(argType))
-                        {
-                            throw new InvalidOperationException($"No default value registered for type {argType.FullName}");
-                        }
-                    }
-
-                    object?[] defaultValues = argumentTypes
-                        .Select(t => t.IsValueType ? DefaultValues[t] : null)
-                        .ToArray();
+                    var defaultValues = Expression.Lambda<Func<object[]>>(
+                        Expression.NewArrayInit(typeof(object), argumentTypes.Select(type =>
+                            Expression.Convert(Expression.Default(type), typeof(object))))).Compile().Invoke();
 
                     result = (targetType, parameters) => creator(targetType,
                         argumentTypes.Select((type, i) => parameters == null || i >= parameters.Length
@@ -90,29 +73,21 @@ namespace Plugin.CloudFirestore
 
         private static ConcurrentDictionary<Type, Func<Type, object?[]?, DocumentConverter>> _creators = new ConcurrentDictionary<Type, Func<Type, object?[]?, DocumentConverter>>();
 
-        public static void RegisterCreator<
-            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
-        {
-            _creators.TryAdd(typeof(T), CreatorCache<T>.Instance);
-        }
-
-        internal static Func<Type, object?[]?, DocumentConverter> GetCreator(Type type)
+        public static Func<Type, object?[]?, DocumentConverter> GetCreator(Type type)
         {
             return _creators.GetOrAdd(type, GetCreatorCache);
         }
 
-        internal static Func<Type, object?[]?, DocumentConverter> GetCreator<
-            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
+        public static Func<Type, object?[]?, DocumentConverter> GetCreator<T>()
         {
             return CreatorCache<T>.Instance;
         }
 
         private static Func<Type, object?[]?, DocumentConverter> GetCreatorCache(Type type)
         {
-            if (_creators.TryGetValue(type, out Func<Type, object?[]?, DocumentConverter>? creator))
-                return creator;
-
-            throw new InvalidOperationException($"No creator for type {type.FullName}");
+            return (Func<Type, object?[]?, DocumentConverter>)typeof(CreatorCache<>).MakeGenericType(type)
+                .GetField("Instance", BindingFlags.Public | BindingFlags.Static)
+                .GetValue(null);
         }
     }
 }
