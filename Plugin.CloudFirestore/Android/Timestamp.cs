@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Plugin.CloudFirestore
+﻿namespace Plugin.CloudFirestore
 {
     public partial struct Timestamp
     {

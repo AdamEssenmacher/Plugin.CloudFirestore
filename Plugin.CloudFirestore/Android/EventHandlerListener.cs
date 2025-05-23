@@ -1,5 +1,4 @@
-﻿using System;
-using Firebase.Firestore;
+﻿using Firebase.Firestore;
 using Android.Runtime;
 using System.Diagnostics.CodeAnalysis;
 

@@ -1,5 +1,4 @@
-﻿using System;
-using Android.Runtime;
+﻿using Android.Runtime;
 
 namespace Plugin.CloudFirestore
 {

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Reflection;
-using Plugin.CloudFirestore.Converters;
 
 namespace Plugin.CloudFirestore
 {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-using System.Threading.Tasks;
-using Firebase.CloudFirestore;
-using Foundation;
+﻿using Firebase.CloudFirestore;
 
 namespace Plugin.CloudFirestore
 {

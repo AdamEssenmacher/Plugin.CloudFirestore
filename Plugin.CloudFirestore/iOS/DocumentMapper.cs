@@ -1,5 +1,4 @@
-﻿using System;
-using Foundation;
+﻿using Foundation;
 using Firebase.CloudFirestore;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;

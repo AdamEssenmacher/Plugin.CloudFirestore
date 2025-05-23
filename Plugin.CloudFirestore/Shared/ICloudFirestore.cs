@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace Plugin.CloudFirestore
+﻿namespace Plugin.CloudFirestore
 {
     public interface ICloudFirestore
     {

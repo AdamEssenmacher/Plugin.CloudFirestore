@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Reactive.Disposables;
-using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Firebase.CloudFirestore;
 using System.Collections.Generic;
 using System.Linq;
 using ObjCRuntime;
 using Foundation;
-using System.Reflection;
 using CoreFoundation;
 
 namespace Plugin.CloudFirestore

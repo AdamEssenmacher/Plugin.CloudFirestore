@@ -1,5 +1,4 @@
-﻿using System;
-namespace Plugin.CloudFirestore
+﻿namespace Plugin.CloudFirestore
 {
     public enum DocumentChangeType
     {

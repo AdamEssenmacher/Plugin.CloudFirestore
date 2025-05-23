@@ -1,5 +1,4 @@
-﻿using System;
-using Firebase.Firestore;
+﻿using Firebase.Firestore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics.CodeAnalysis;

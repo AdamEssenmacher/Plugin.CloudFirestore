@@ -1,5 +1,4 @@
-﻿using System;
-using Firebase.CloudFirestore;
+﻿using Firebase.CloudFirestore;
 
 namespace Plugin.CloudFirestore
 {

@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Firebase.Firestore;
 using Android.Runtime;
-using Firebase;
 using Java.Lang;
 
 namespace Plugin.CloudFirestore
