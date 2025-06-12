@@ -61,8 +61,7 @@ namespace Plugin.CloudFirestore
                 {
                     error = new ExceptionError(e);
                 }
-
-                return new NSNull();
+                return null;
             },
             (NSObject? result, NSError? error) =>
             {
@@ -104,8 +103,7 @@ namespace Plugin.CloudFirestore
                 {
                     error = new ExceptionError(e);
                 }
-
-                return new NSNull();
+                return null;
             },
             (NSObject? result, NSError? error) =>
             {
@@ -151,8 +149,7 @@ namespace Plugin.CloudFirestore
                 {
                     error = new ExceptionError(e);
                 }
-
-                return new NSNull();
+                return null;
             },
             (NSObject? result, NSError? error) =>
             {
@@ -163,7 +160,7 @@ namespace Plugin.CloudFirestore
                     exception = error is ExceptionError exceptionError ? exceptionError.Exception : ExceptionMapper.Map(error);
                 }
 
-                completionHandler.Invoke(exception);
+                completionHandler?.Invoke(exception);
             });
         }
 
@@ -186,8 +183,7 @@ namespace Plugin.CloudFirestore
                 {
                     error = new ExceptionError(e);
                 }
-
-                return new NSNull();
+                return null;
             },
             (NSObject? result, NSError? error) =>
             {
@@ -221,8 +217,7 @@ namespace Plugin.CloudFirestore
         {
             _firestore.EnableNetwork((error) =>
             {
-                // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-                handler.Invoke(error == null ? null : ExceptionMapper.Map(error));
+                handler?.Invoke(error == null ? null : ExceptionMapper.Map(error));
             });
         }
 
@@ -232,7 +227,6 @@ namespace Plugin.CloudFirestore
 
             _firestore.EnableNetwork((error) =>
             {
-                // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
                 if (error != null)
                 {
                     tcs.SetException(ExceptionMapper.Map(error));
@@ -250,8 +244,7 @@ namespace Plugin.CloudFirestore
         {
             _firestore.DisableNetwork((error) =>
             {
-                // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-                handler.Invoke(error == null ? null : ExceptionMapper.Map(error));
+                handler?.Invoke(error == null ? null : ExceptionMapper.Map(error));
             });
         }
 
@@ -261,7 +254,6 @@ namespace Plugin.CloudFirestore
 
             _firestore.DisableNetwork((error) =>
             {
-                // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
                 if (error != null)
                 {
                     tcs.SetException(ExceptionMapper.Map(error));
@@ -287,7 +279,6 @@ namespace Plugin.CloudFirestore
 
             _firestore.ClearPersistence((error) =>
             {
-                // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
                 if (error != null)
                 {
                     tcs.SetException(ExceptionMapper.Map(error));
@@ -307,7 +298,6 @@ namespace Plugin.CloudFirestore
 
             _firestore.Terminate((error) =>
             {
-                // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
                 if (error != null)
                 {
                     tcs.SetException(ExceptionMapper.Map(error));
@@ -327,7 +317,6 @@ namespace Plugin.CloudFirestore
 
             _firestore.WaitForPendingWrites((error) =>
             {
-                // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
                 if (error != null)
                 {
                     tcs.SetException(ExceptionMapper.Map(error));
@@ -357,7 +346,7 @@ namespace Plugin.CloudFirestore
 
         public override int GetHashCode()
         {
-            return _firestore.GetHashCode();
+            return _firestore?.GetHashCode() ?? 0;
         }
     }
 }

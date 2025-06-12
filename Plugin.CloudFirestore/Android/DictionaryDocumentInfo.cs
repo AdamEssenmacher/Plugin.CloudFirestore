@@ -17,10 +17,7 @@ namespace Plugin.CloudFirestore
             while (enumerator.MoveNext())
             {
                 var entry = enumerator.Entry;
-                var keyString = entry.Key.ToString();
-                if (keyString == null)
-                    throw new Exception("keyString cannot be null here");
-                ret.Add(keyString, entry.Value.ToNativeFieldValue(_documentFieldInfo));
+                ret.Add(entry.Key.ToString(), entry.Value.ToNativeFieldValue(_documentFieldInfo));
             }
 
             return ret;
@@ -93,18 +90,15 @@ namespace Plugin.CloudFirestore
             while (enumerator.MoveNext())
             {
                 var entry = enumerator.Entry;
-                object? value = entry.Value;
+                object value = entry.Value;
 
-                object? keyString = entry.Key.ToString();
+                object key = entry.Key.ToString();
                 if (_dictionaryKeyType != typeof(string) && _dictionaryKeyType != typeof(object))
                 {
-                    keyString = Convert.ChangeType(keyString, _dictionaryKeyType);
+                    key = Convert.ChangeType(key, _dictionaryKeyType);
                 }
 
-                if (keyString == null)
-                    throw new Exception("keyString cannot be null here");
-
-                adapter[keyString] = value.ToFieldValue(_documentFieldInfo);
+                adapter[key] = value.ToFieldValue(_documentFieldInfo);
             }
 
             return ret;
@@ -115,19 +109,16 @@ namespace Plugin.CloudFirestore
             var ret = Create();
             var adapter = GetDictionaryAdapter(ret);
 
-            foreach (var key in map.KeySet())
+            foreach (var key in map.KeySet()!)
             {
                 var keyStr = key.ToString();
                 object? value = map.Get(keyStr);
 
-                object? convertedKey = keyStr;
+                object convertedKey = keyStr;
                 if (_dictionaryKeyType != typeof(string) && _dictionaryKeyType != typeof(object))
                 {
                     convertedKey = Convert.ChangeType(key, _dictionaryKeyType);
                 }
-
-                if (convertedKey == null)
-                    throw new Exception("convertedKey cannot be null here");
 
                 adapter[convertedKey] = value.ToFieldValue(_documentFieldInfo);
             }

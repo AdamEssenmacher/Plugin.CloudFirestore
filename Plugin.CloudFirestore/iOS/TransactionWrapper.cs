@@ -137,7 +137,7 @@ namespace Plugin.CloudFirestore
 
         public override int GetHashCode()
         {
-            return _transaction.GetHashCode();
+            return _transaction?.GetHashCode() ?? 0;
         }
     }
 }

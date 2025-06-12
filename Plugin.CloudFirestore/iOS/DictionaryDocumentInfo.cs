@@ -16,11 +16,7 @@ namespace Plugin.CloudFirestore
             while (enumerator.MoveNext())
             {
                 var entry = enumerator.Entry;
-                var keyString = entry.Key.ToString();
-                if (keyString == null)
-                    throw new Exception("keyString cannot be null here");
-
-                ret[keyString] = entry.Value.ToNativeFieldValue(_documentFieldInfo);
+                ret[entry.Key.ToString()] = entry.Value.ToNativeFieldValue(_documentFieldInfo);
             }
 
             return ret;

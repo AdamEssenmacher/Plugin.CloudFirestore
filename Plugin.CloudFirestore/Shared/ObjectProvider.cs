@@ -71,22 +71,22 @@ namespace Plugin.CloudFirestore
         private static IDocumentInfo GetDocumentInfoCache(Type type)
         {
             return (IDocumentInfo)typeof(DocumentInfoCache<>).MakeGenericType(type)
-                .GetField("Instance", BindingFlags.Public | BindingFlags.Static)!
-                .GetValue(null)!;
+                .GetField("Instance", BindingFlags.Public | BindingFlags.Static)
+                .GetValue(null);
         }
 
         private static IListAdapterFactory GetListAdapterFactoryCache(Type type)
         {
             return (IListAdapterFactory)typeof(ListAdapterFactoryCache<>).MakeGenericType(type)
-                .GetField("Instance", BindingFlags.Public | BindingFlags.Static)!
-                .GetValue(null)!;
+                .GetField("Instance", BindingFlags.Public | BindingFlags.Static)
+                .GetValue(null);
         }
 
         private static IDictionaryAdapterFactory GetDictionaryAdapterFactoryCache((Type key, Type value) type)
         {
             return (IDictionaryAdapterFactory)typeof(DictionaryAdapterFactoryCache<,>).MakeGenericType(type.key, type.value)
-                .GetField("Instance", BindingFlags.Public | BindingFlags.Static)!
-                .GetValue(null)!;
+                .GetField("Instance", BindingFlags.Public | BindingFlags.Static)
+                .GetValue(null);
         }
     }
 }

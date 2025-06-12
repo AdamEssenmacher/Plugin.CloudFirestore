@@ -36,7 +36,7 @@ namespace Plugin.CloudFirestore
 
         public override int GetHashCode()
         {
-            return _listenerRegistration.GetHashCode();
+            return _listenerRegistration?.GetHashCode() ?? 0;
         }
     }
 }

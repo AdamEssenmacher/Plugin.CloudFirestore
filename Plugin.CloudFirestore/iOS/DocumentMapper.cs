@@ -1,6 +1,7 @@
 ﻿using Foundation;
 using Firebase.CloudFirestore;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Plugin.CloudFirestore
 {
@@ -8,7 +9,7 @@ namespace Plugin.CloudFirestore
     {
         public static IDictionary<string, object?>? Map(DocumentSnapshot source, ServerTimestampBehavior? serverTimestampBehavior = null)
         {
-            if (source.Exists)
+            if (source != null && source.Exists)
             {
                 NSDictionary<NSString, NSObject> data;
                 if (serverTimestampBehavior == null)
@@ -33,7 +34,8 @@ namespace Plugin.CloudFirestore
             return null;
         }
 
-        public static T? Map<T>(DocumentSnapshot source, ServerTimestampBehavior? serverTimestampBehavior = null)
+        [return: MaybeNull]
+        public static T Map<T>(DocumentSnapshot source, ServerTimestampBehavior? serverTimestampBehavior = null)
         {
             var value = ObjectProvider.GetDocumentInfo<T>().Create(source, serverTimestampBehavior);
             return value is not null ? (T)value : default;

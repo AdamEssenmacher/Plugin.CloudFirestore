@@ -10,11 +10,11 @@ namespace Plugin.CloudFirestore
         ISnapshotMetadata Metadata { get; }
         IDocumentReference Reference { get; }
         IDictionary<string, object?>? GetData(ServerTimestampBehavior serverTimestampBehavior);
-        T? ToObject<T>();
-        T? ToObject<T>(ServerTimestampBehavior serverTimestampBehavior);
-        T? Get<T>(string field);
-        T? Get<T>(string field, ServerTimestampBehavior serverTimestampBehavior);
-        T? Get<T>(FieldPath field);
-        T? Get<T>(FieldPath field, ServerTimestampBehavior serverTimestampBehavior);
+        T ToObject<T>();
+        T ToObject<T>(ServerTimestampBehavior serverTimestampBehavior);
+        T Get<T>(string field);
+        T Get<T>(string field, ServerTimestampBehavior serverTimestampBehavior);
+        T Get<T>(FieldPath field);
+        T Get<T>(FieldPath field, ServerTimestampBehavior serverTimestampBehavior);
     }
 }

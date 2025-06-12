@@ -32,7 +32,7 @@ namespace Plugin.CloudFirestore
 
         public override int GetHashCode()
         {
-            return _snapshotMetadata.GetHashCode();
+            return _snapshotMetadata?.GetHashCode() ?? 0;
         }
     }
 }

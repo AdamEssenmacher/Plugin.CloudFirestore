@@ -36,7 +36,7 @@ namespace Plugin.CloudFirestore
             return new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero).AddMilliseconds(Seconds * 1000 + Nanoseconds / 1000000.0);
         }
 
-        public override bool Equals(object? obj)
+        public override bool Equals(object obj)
         {
             return obj is Timestamp timestamp && Equals(timestamp);
         }

@@ -76,9 +76,9 @@ namespace Plugin.CloudFirestore
 
             public object Key => Entry.Key;
 
-            public object? Value => Entry.Value;
+            public object Value => Entry.Value;
 
-            public object Current => new DictionaryEntry(_enumerator.Current.Key!, _enumerator.Current.Value);
+            public object Current => new DictionaryEntry(_enumerator.Current.Key, _enumerator.Current.Value);
 
             public bool MoveNext()
             {

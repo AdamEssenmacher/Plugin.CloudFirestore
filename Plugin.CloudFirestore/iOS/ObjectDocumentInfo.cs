@@ -10,7 +10,7 @@ namespace Plugin.CloudFirestore
         public Dictionary<object, object> ConvertToFieldObject(object target)
         {
             var targetType = target.GetType();
-            if (_type != targetType)
+            if (targetType != null && _type != targetType)
             {
                 return ObjectProvider.GetDocumentInfo(targetType).ConvertToFieldObject(target);
             }
@@ -40,7 +40,7 @@ namespace Plugin.CloudFirestore
         public object ConvertToFieldValue(object target)
         {
             var targetType = target.GetType();
-            if (_type != targetType)
+            if (targetType != null && _type != targetType)
             {
                 return ObjectProvider.GetDocumentInfo(targetType).ConvertToFieldValue(target);
             }
