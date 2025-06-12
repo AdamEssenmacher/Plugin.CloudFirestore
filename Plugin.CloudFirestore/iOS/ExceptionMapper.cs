@@ -8,7 +8,7 @@ namespace Plugin.CloudFirestore
         public static Exception Map(NSErrorException exception)
         {
             var errorType = ErrorType.Unknown;
-            var errorCode = (FirestoreErrorCode)exception.Error.Code;
+            var errorCode = (FirestoreErrorCode)(long)exception.Error.Code;
 
             switch (errorCode)
             {

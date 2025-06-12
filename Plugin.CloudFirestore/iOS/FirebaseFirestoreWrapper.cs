@@ -20,7 +20,9 @@ namespace Plugin.CloudFirestore
             set => _firestore.Settings = value is not null ? new Firebase.CloudFirestore.FirestoreSettings
             {
                 Host = value.Host,
-                SslEnabled = value.IsSslEnabled
+                PersistenceEnabled = value.IsPersistenceEnabled,
+                SslEnabled = value.IsSslEnabled,
+                CacheSizeBytes = value.CacheSizeBytes
             } : throw new ArgumentNullException();
         }
 
@@ -62,7 +64,7 @@ namespace Plugin.CloudFirestore
 
                 return new NSNull();
             },
-            (result, error) =>
+            (NSObject? result, NSError? error) =>
             {
                 T resultObject = default!;
                 Exception? exception = null;
@@ -79,7 +81,7 @@ namespace Plugin.CloudFirestore
                     }
                 }
 
-                completionHandler.Invoke(resultObject, exception);
+                completionHandler?.Invoke(resultObject, exception);
             });
         }
 
@@ -105,7 +107,7 @@ namespace Plugin.CloudFirestore
 
                 return new NSNull();
             },
-            (result, error) =>
+            (NSObject? result, NSError? error) =>
             {
                 if (error != null)
                 {
@@ -152,7 +154,7 @@ namespace Plugin.CloudFirestore
 
                 return new NSNull();
             },
-            (_, error) =>
+            (NSObject? result, NSError? error) =>
             {
                 Exception? exception = null;
 
@@ -187,7 +189,7 @@ namespace Plugin.CloudFirestore
 
                 return new NSNull();
             },
-            (_, error) =>
+            (NSObject? result, NSError? error) =>
             {
                 if (error != null)
                 {

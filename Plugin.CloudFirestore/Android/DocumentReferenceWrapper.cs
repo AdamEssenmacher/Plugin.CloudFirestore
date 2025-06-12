@@ -31,6 +31,8 @@ namespace Plugin.CloudFirestore
 
         public void GetDocument(DocumentSnapshotHandler handler)
         {
+            var tcs = new TaskCompletionSource<IDocumentSnapshot>();
+
             _documentReference.Get().AddOnCompleteListener(new OnCompleteHandlerListener((task) =>
             {
                 var snapshot = !task.IsSuccessful ? null : task.Result.JavaCast<DocumentSnapshot>();
@@ -41,6 +43,8 @@ namespace Plugin.CloudFirestore
 
         public void GetDocument(Source source, DocumentSnapshotHandler handler)
         {
+            var tcs = new TaskCompletionSource<IDocumentSnapshot>();
+
             _documentReference.Get(source.ToNative()).AddOnCompleteListener(new OnCompleteHandlerListener((task) =>
             {
                 var snapshot = !task.IsSuccessful ? null : task.Result.JavaCast<DocumentSnapshot>();
@@ -443,8 +447,7 @@ namespace Plugin.CloudFirestore
 
         public IListenerRegistration AddSnapshotListener(DocumentSnapshotHandler listener)
         {
-            // ReSharper disable once RedundantLambdaParameterType
-            var registration = _documentReference.AddSnapshotListener(new EventHandlerListener<DocumentSnapshot>((DocumentSnapshot? value, FirebaseFirestoreException? error) =>
+            var registration = _documentReference.AddSnapshotListener(new EventHandlerListener<DocumentSnapshot>((value, error) =>
             {
                 listener.Invoke(value == null ? null : new DocumentSnapshotWrapper(value),
                                  error == null ? null : ExceptionMapper.Map(error));
@@ -455,8 +458,7 @@ namespace Plugin.CloudFirestore
 
         public IListenerRegistration AddSnapshotListener(bool includeMetadataChanges, DocumentSnapshotHandler listener)
         {
-            // ReSharper disable once RedundantLambdaParameterType
-            var registration = _documentReference.AddSnapshotListener(includeMetadataChanges ? MetadataChanges.Include : MetadataChanges.Exclude, new EventHandlerListener<DocumentSnapshot>((DocumentSnapshot? value, FirebaseFirestoreException? error) =>
+            var registration = _documentReference.AddSnapshotListener(includeMetadataChanges ? MetadataChanges.Include : MetadataChanges.Exclude, new EventHandlerListener<DocumentSnapshot>((value, error) =>
            {
                listener.Invoke(value == null ? null : new DocumentSnapshotWrapper(value),
                                 error == null ? null : ExceptionMapper.Map(error));

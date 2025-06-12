@@ -13,7 +13,6 @@ namespace Plugin.CloudFirestore
             var ret = new JavaDictionary<string, Java.Lang.Object?>();
 
             var adapter = GetDictionaryAdapter(target);
-            // ReSharper disable once GenericEnumeratorNotDisposed
             var enumerator = adapter.GetEnumerator();
             while (enumerator.MoveNext())
             {
@@ -90,7 +89,6 @@ namespace Plugin.CloudFirestore
             var ret = Create();
             var adapter = GetDictionaryAdapter(ret);
 
-            // ReSharper disable once GenericEnumeratorNotDisposed
             var enumerator = dictionary.GetEnumerator();
             while (enumerator.MoveNext())
             {

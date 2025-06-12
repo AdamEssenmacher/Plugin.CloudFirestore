@@ -1,4 +1,5 @@
-﻿namespace Plugin.CloudFirestore
+﻿using System;
+namespace Plugin.CloudFirestore
 {
     public enum DocumentObjectType
     {
@@ -9,9 +10,11 @@
         String,
         List,
         Dictionary,
+        [Obsolete("Use Timestamp instead")]
+        Timestapm,
         Bytes,
         GeoPoint,
         DocumentReference,
-        Timestamp
+        Timestamp = Timestapm
     }
 }

@@ -24,33 +24,33 @@ namespace Plugin.CloudFirestore
                 case null:
                     return null;
                 case bool @bool:
-                    return Java.Lang.Boolean.ValueOf(@bool);
+                    return new Java.Lang.Boolean(@bool);
                 case byte @byte:
-                    return Java.Lang.Long.ValueOf(@byte);
+                    return new Java.Lang.Long(@byte);
                 case double @double:
-                    return Java.Lang.Double.ValueOf(@double);
+                    return new Java.Lang.Double(@double);
                 case float @float:
-                    return Java.Lang.Double.ValueOf(@float);
+                    return new Java.Lang.Double(@float);
                 case int @int:
-                    return Java.Lang.Long.ValueOf(@int);
+                    return new Java.Lang.Long(@int);
                 case long @long:
-                    return Java.Lang.Long.ValueOf(@long);
+                    return new Java.Lang.Long(@long);
                 case sbyte @sbyte:
-                    return Java.Lang.Long.ValueOf(@sbyte);
+                    return new Java.Lang.Long(@sbyte);
                 case short @short:
-                    return Java.Lang.Long.ValueOf(@short);
+                    return new Java.Lang.Long(@short);
                 case uint @uint:
-                    return Java.Lang.Long.ValueOf(@uint);
+                    return new Java.Lang.Long(@uint);
                 case ulong @ulong:
                     if (@ulong > long.MaxValue)
                     {
                         throw new OverflowException();
                     }
-                    return Java.Lang.Long.ValueOf((long)@ulong);
+                    return new Java.Lang.Long((long)@ulong);
                 case ushort @ushort:
-                    return Java.Lang.Long.ValueOf(@ushort);
+                    return new Java.Lang.Long(@ushort);
                 case decimal @decimal:
-                    return Java.Lang.Double.ValueOf((double)@decimal);
+                    return new Java.Lang.Double((double)@decimal);
                 case char @char:
                     return new Java.Lang.String(@char.ToString());
                 case string @string:
@@ -114,10 +114,10 @@ namespace Plugin.CloudFirestore
                 string @string => new DocumentObject(@string),
                 Firebase.Timestamp timestamp => new DocumentObject(new Timestamp(timestamp)),
                 Java.Util.Date date => new DocumentObject(new Timestamp(date)),
-                JavaList javaList => DocumentObject.CreateAsList(info => info.DocumentInfo.Create(javaList)),
-                Java.Util.AbstractList javaList => DocumentObject.CreateAsList(info => info.DocumentInfo.Create(javaList)),
-                JavaDictionary dictionary => DocumentObject.CreateAsDictionary(info => info.DocumentInfo.Create(dictionary)),
-                Java.Util.AbstractMap map => DocumentObject.CreateAsDictionary(info => info.DocumentInfo.Create(map)),
+                JavaList javaList => DocumentObject.CreateAsList((fieldInfo) => fieldInfo.DocumentInfo.Create(javaList)),
+                Java.Util.AbstractList javaList => DocumentObject.CreateAsList((fieldInfo) => fieldInfo.DocumentInfo.Create(javaList)),
+                JavaDictionary dictionary => DocumentObject.CreateAsDictionary((fieldInfo) => fieldInfo.DocumentInfo.Create(dictionary)),
+                Java.Util.AbstractMap map => DocumentObject.CreateAsDictionary((fieldInfo) => fieldInfo.DocumentInfo.Create(map)),
                 Firebase.Firestore.Blob blob => new DocumentObject(blob.ToBytes()),
                 Firebase.Firestore.GeoPoint geoPoint => new DocumentObject(new GeoPoint(geoPoint)),
                 Firebase.Firestore.DocumentReference documentReference => new DocumentObject(new DocumentReferenceWrapper(documentReference)),

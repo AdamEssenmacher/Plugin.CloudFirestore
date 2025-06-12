@@ -21,16 +21,16 @@ namespace Plugin.CloudFirestore
             public static readonly IDictionaryAdapterFactory Instance = new DictionaryAdapterFactory<TKey, TValue>();
         }
 
-        private static readonly ConcurrentDictionary<Type, IDocumentInfo> DocumentInfos = new();
-        private static readonly ConcurrentDictionary<Type, IListAdapterFactory> ListAdapterFactories = new();
-        private static readonly ConcurrentDictionary<(Type, Type), IDictionaryAdapterFactory> DictionaryAdapterFactories = new();
+        private static readonly ConcurrentDictionary<Type, IDocumentInfo> _documentInfos = new ConcurrentDictionary<Type, IDocumentInfo>();
+        private static readonly ConcurrentDictionary<Type, IListAdapterFactory> _listAdapterFactories = new ConcurrentDictionary<Type, IListAdapterFactory>();
+        private static readonly ConcurrentDictionary<(Type, Type), IDictionaryAdapterFactory> _dictionaryAdapterFactories = new ConcurrentDictionary<(Type, Type), IDictionaryAdapterFactory>();
 
-        private static readonly IListAdapterFactory ListAdapterFactory = new ListAdapterFactory();
-        private static readonly IDictionaryAdapterFactory DictionaryAdapterFactory = new DictionaryAdapterFactory();
+        private static readonly IListAdapterFactory _listAdapterFactory = new ListAdapterFactory();
+        private static readonly IDictionaryAdapterFactory _dictionaryAdapterFactory = new DictionaryAdapterFactory();
 
         public static IDocumentInfo GetDocumentInfo(Type documentType)
         {
-            return DocumentInfos.GetOrAdd(documentType, GetDocumentInfoCache);
+            return _documentInfos.GetOrAdd(documentType, GetDocumentInfoCache);
         }
 
         public static IDocumentInfo GetDocumentInfo<T>()
@@ -40,7 +40,7 @@ namespace Plugin.CloudFirestore
 
         public static IListAdapterFactory GetListAdapterFactory(Type type)
         {
-            return ListAdapterFactories.GetOrAdd(type, GetListAdapterFactoryCache);
+            return _listAdapterFactories.GetOrAdd(type, GetListAdapterFactoryCache);
         }
 
         public static IListAdapterFactory GetListAdapterFactory<T>()
@@ -50,12 +50,12 @@ namespace Plugin.CloudFirestore
 
         public static IListAdapterFactory GetListAdapterFactory()
         {
-            return ListAdapterFactory;
+            return _listAdapterFactory;
         }
 
         public static IDictionaryAdapterFactory GetDictionaryAdapterFactory(Type keyType, Type valueType)
         {
-            return DictionaryAdapterFactories.GetOrAdd((keyType, valueType), GetDictionaryAdapterFactoryCache);
+            return _dictionaryAdapterFactories.GetOrAdd((keyType, valueType), GetDictionaryAdapterFactoryCache);
         }
 
         public static IDictionaryAdapterFactory GetDictionaryAdapterFactory<TKey, TValue>()
@@ -65,7 +65,7 @@ namespace Plugin.CloudFirestore
 
         public static IDictionaryAdapterFactory GetDictionaryAdapterFactory()
         {
-            return DictionaryAdapterFactory;
+            return _dictionaryAdapterFactory;
         }
 
         private static IDocumentInfo GetDocumentInfoCache(Type type)

@@ -32,19 +32,19 @@ namespace Plugin.CloudFirestore
                     var constructor = type.GetConstructor(new[] { typeof(Type) }.Concat(argumentTypes).ToArray());
 
                     var expressons = new Expression[] { targetType }.Concat(
-                        argumentTypes.Select((t, i) => Expression.Convert(Expression.ArrayIndex(parameters, Expression.Constant(i)), t)));
+                        argumentTypes.Select((type, i) => Expression.Convert(Expression.ArrayIndex(parameters, Expression.Constant(i)), type)));
 
                     var creator = Expression.Lambda<Func<Type, object?[]?, DocumentConverter>>(
                         Expression.New(constructor!, expressons), targetType, parameters).Compile();
 
                     var defaultValues = Expression.Lambda<Func<object[]>>(
-                        Expression.NewArrayInit(typeof(object), argumentTypes.Select(t =>
-                            Expression.Convert(Expression.Default(t), typeof(object))))).Compile().Invoke();
+                        Expression.NewArrayInit(typeof(object), argumentTypes.Select(type =>
+                            Expression.Convert(Expression.Default(type), typeof(object))))).Compile().Invoke();
 
-                    result = (target, p) => creator(target,
-                        argumentTypes.Select((t, i) => p == null || i >= p.Length
+                    result = (targetType, parameters) => creator(targetType,
+                        argumentTypes.Select((type, i) => parameters == null || i >= parameters.Length
                             ? defaultValues[i]
-                            : p[i] != null ? Convert.ChangeType(p[i], Nullable.GetUnderlyingType(t) ?? t) : p[i])
+                            : parameters[i] != null ? Convert.ChangeType(parameters[i], Nullable.GetUnderlyingType(type) ?? type) : parameters[i])
                         .ToArray());
                 }
                 return result;

@@ -66,7 +66,7 @@ namespace Plugin.CloudFirestore
             }
         }
 
-        public object? GetValue(object target)
+        public object GetValue(object target)
         {
             var value = _memberInfo switch
             {
@@ -95,7 +95,7 @@ namespace Plugin.CloudFirestore
         public bool IsServerTimestampValue(object value)
         {
             return IsServerTimestamp
-                && (CanReplaceServerTimestamp
+                && (CanReplaceServerTimestamp || value == null
                 || (value is DateTime dateTime && dateTime == default)
                 || (value is DateTimeOffset dateTimeOffset && dateTimeOffset == default)
                 || (value is Timestamp timestamp && timestamp == default));

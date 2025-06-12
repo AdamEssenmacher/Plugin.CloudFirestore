@@ -298,8 +298,7 @@ namespace Plugin.CloudFirestore
 
         public IListenerRegistration AddSnapshotListener(QuerySnapshotHandler listener)
         {
-            // ReSharper disable once RedundantLambdaParameterType
-            var registration = _query.AddSnapshotListener(new EventHandlerListener<QuerySnapshot>((QuerySnapshot? value, FirebaseFirestoreException? error) =>
+            var registration = _query.AddSnapshotListener(new EventHandlerListener<QuerySnapshot>((value, error) =>
             {
                 listener.Invoke(value == null ? null : new QuerySnapshotWrapper(value),
                                  error == null ? null : ExceptionMapper.Map(error));
@@ -310,8 +309,7 @@ namespace Plugin.CloudFirestore
 
         public IListenerRegistration AddSnapshotListener(bool includeMetadataChanges, QuerySnapshotHandler listener)
         {
-            // ReSharper disable once RedundantLambdaParameterType
-            var registration = _query.AddSnapshotListener(includeMetadataChanges ? MetadataChanges.Include : MetadataChanges.Exclude, new EventHandlerListener<QuerySnapshot>((QuerySnapshot? value, FirebaseFirestoreException? error) =>
+            var registration = _query.AddSnapshotListener(includeMetadataChanges ? MetadataChanges.Include : MetadataChanges.Exclude, new EventHandlerListener<QuerySnapshot>((value, error) =>
            {
                listener.Invoke(value == null ? null : new QuerySnapshotWrapper(value),
                                 error == null ? null : ExceptionMapper.Map(error));
